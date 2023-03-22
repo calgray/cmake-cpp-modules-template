@@ -1,6 +1,6 @@
 # CMake Modules C++20
 
-Example project for C++20 module support in CMake.
+Example project for C++20 module support in CMake. For more information see https://www.kitware.com/import-cmake-c20-modules/.
 
 ## Requirements
 
