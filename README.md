@@ -11,6 +11,15 @@ Example project for C++20 module support in CMake. For more information see http
 
 ## Build Command
 ```
-cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=/opt/clang/16.0.0/bin/clang++
-cmake --build build
+conan install . -g cmake_multi -if build -s build_type=Release --build=missing
+conan install . -g cmake_multi -if build -s build_type=Debug --build=missing
+cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER=/opt/clang/16.0.0/bin/clang++ -DCONAN_COMPILER=clang
+cmake --build build --config Release
+
+./build/helloworld/Release/helloworld
+```
+
+## Testing
+```
+./build/foobar/tests/Release/foobar_tests
 ```

@@ -3,7 +3,7 @@
 import foo;
 import bar;
 
-int main()
+int main(int argc, char** argv)
 {
   std::cout << "helloworld\n";
   foo f;

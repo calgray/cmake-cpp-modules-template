@@ -1,0 +1,6 @@
+[requires]
+boost-ext-ut/1.1.9
+
+[generators]
+cmake_multi
+cmake
