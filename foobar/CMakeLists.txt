@@ -9,5 +9,8 @@ target_sources(foobar PUBLIC
     FILES
     src/foo.cxx
     src/bar.cxx
+    src/cycle.cxx
+    src/cycleA.cxx
+    src/cycleB.cxx
 )
 add_subdirectory(tests)

@@ -13,4 +13,4 @@ module;
 #include <exception>
 #endif
 
-export module nstd;
+export module std;

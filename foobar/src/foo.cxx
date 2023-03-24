@@ -10,6 +10,7 @@ export class foo
 public:
   foo() = default;
   ~foo() = default;
+  std::string name() const { return "foo"; }
   void print();
 };
 
