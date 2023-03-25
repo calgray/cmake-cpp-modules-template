@@ -1,9 +1,12 @@
 // Global module fragment where #includes can happen
 module;
-#include <iostream>
+#include <unistd.h>
 
 // first thing after the Global module fragment must be a module command
 export module foo;
+
+//import std;
+import clangstd;
 
 export class foo
 {

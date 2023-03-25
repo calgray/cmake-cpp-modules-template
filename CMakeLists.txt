@@ -4,7 +4,7 @@ project(std_module_example CXX)
 # C++ Modules
 # CMake 3.25
 #set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "3c375311-a3c9-4396-a187-3227ef642046")
-# CMake 3.26 
+# CMake 3.26
 set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "2182bf5c-ef0d-489a-91da-49dbc3090d2a")
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -16,20 +16,20 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   include(cmake/gcc_modules.cmake)
 endif()
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Conan
 get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(isMultiConfig)
-    message("${CMAKE_BINARY_DIR}")
     include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake) # Include Conan-generated file
 else()
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake) # Include Conan-generated file
 endif()
 conan_basic_setup(TARGETS) # Introduce Conan-generated targets
 
-#add_subdirectory(std)
+add_subdirectory(std)
+#add_subdirectory(headerunits)
 add_subdirectory(ut)
 add_subdirectory(foobar)
 add_subdirectory(helloworld)

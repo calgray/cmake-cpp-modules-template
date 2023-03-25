@@ -1,5 +1,4 @@
-#include <iostream>
-
+import clangstd;
 import foo;
 import bar;
 

@@ -1,7 +1,6 @@
-module;
-#include <string>
-
 export module foobar.cycle:B;
+
+import clangstd;
 
 class cycleA;
 export class cycleB {
