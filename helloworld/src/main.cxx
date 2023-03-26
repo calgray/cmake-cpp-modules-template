@@ -7,6 +7,7 @@
 
 #include <string>
 #include <iostream>
+#include <cmath>
 
 import foo;
 import bar;

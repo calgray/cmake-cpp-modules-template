@@ -40,6 +40,7 @@ set(STD_HEADERS
     iterator
     list
     condition_variable
+    compare
     queue
     tuple
     initializer_list
@@ -48,7 +49,7 @@ set(STD_HEADERS
     cfenv
     cinttypes
     clocale
-    #cmath
+    # cmath
     csetjmp
     csignal
     cstdarg
@@ -69,17 +70,20 @@ foreach(header ${STD_HEADERS})
         COMMAND
             ${CMAKE_CXX_COMPILER}
             -std=c++20
-            -c -x c++-system-header ${header}
-            # --precompile
+            # -stdlib=libc++
+            -c -x c++-system-header
+            --precompile
+            ${header}
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
     target_sources(std_header_units PRIVATE ${CMAKE_BINARY_DIR}/${header}.pcm)
 endforeach()
 
-add_library(stdhu)
+add_library(stdhu OBJECT)
 target_compile_features(stdhu PUBLIC cxx_std_20)
 add_dependencies(stdhu std_header_units)
 target_compile_options(stdhu PUBLIC
+    # -stdlib=libc++
     -fmodule-file=iostream.pcm
     -fmodule-file=cstdio.pcm
     -fmodule-file=coroutine.pcm
@@ -105,6 +109,7 @@ target_compile_options(stdhu PUBLIC
     -fmodule-file=iterator.pcm
     -fmodule-file=list.pcm
     -fmodule-file=condition_variable.pcm
+    -fmodule-file=compare.pcm
     -fmodule-file=queue.pcm
     -fmodule-file=tuple.pcm
     -fmodule-file=initializer_list.pcm

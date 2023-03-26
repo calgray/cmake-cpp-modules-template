@@ -30,7 +30,7 @@ conan_basic_setup(TARGETS) # Introduce Conan-generated targets
 
 add_subdirectory(stdcxx)
 add_subdirectory(stdhu)
-# add_subdirectory(fmt)
+add_subdirectory(fmt)
 add_subdirectory(ut)
 add_subdirectory(foobar)
 add_subdirectory(helloworld)
