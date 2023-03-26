@@ -5,8 +5,9 @@ module;
 // first thing after the Global module fragment must be a module command
 export module foo;
 
-//import std;
-import clangstd;
+import <string>;
+import <iostream>;
+
 
 export class foo
 {

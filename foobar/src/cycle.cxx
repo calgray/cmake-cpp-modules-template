@@ -1,6 +1,6 @@
 export module foobar.cycle;
 
-import clangstd;
+import <iostream>;
 
 export import :A;
 export import :B;

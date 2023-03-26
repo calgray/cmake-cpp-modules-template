@@ -16,7 +16,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   include(cmake/gcc_modules.cmake)
 endif()
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Conan
@@ -28,8 +28,9 @@ else()
 endif()
 conan_basic_setup(TARGETS) # Introduce Conan-generated targets
 
-add_subdirectory(std)
-#add_subdirectory(headerunits)
+add_subdirectory(stdcxx)
+add_subdirectory(stdhu)
+# add_subdirectory(fmt)
 add_subdirectory(ut)
 add_subdirectory(foobar)
 add_subdirectory(helloworld)
