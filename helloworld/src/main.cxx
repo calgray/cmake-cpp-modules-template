@@ -1,10 +1,15 @@
 
+// TODO: For some reason explicit includes are still needed
+// in this compilation unit with the header module units to
+// avoid segmentation faults.
+
+// Maybe use an intermediate main module?
+
+#include <string>
+#include <iostream>
+
 import foo;
 import bar;
-import <string>;
-import <iostream>;
-
-// import stdhu;
 
 int main(int argc, char** argv)
 {

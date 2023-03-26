@@ -1,14 +1,11 @@
 // Global module fragment where #includes can happen
 module;
 #include <unistd.h>
-#include <string>
-#include <iostream>
 
 // first thing after the Global module fragment must be a module command
 export module foo;
-// import <string>;
-// import <iostream>;
-// import stdhu;
+import <string>;
+import <iostream>;
 
 export class foo
 {
