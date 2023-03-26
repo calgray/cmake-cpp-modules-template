@@ -4,10 +4,9 @@ module;
 
 // first thing after the Global module fragment must be a module command
 export module foo;
-
 import <string>;
 import <iostream>;
-
+import stdhu;
 
 export class foo
 {

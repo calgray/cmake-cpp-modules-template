@@ -7,7 +7,6 @@ module;
 
 // first thing after the Global module fragment must be a module command
 export module bar;
-// import stdcxx;
 
 export class bar
 {

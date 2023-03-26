@@ -1,5 +1,6 @@
 import boost.ut;
 import foo;
+import stdhu;
 
 using namespace boost::ut;
 

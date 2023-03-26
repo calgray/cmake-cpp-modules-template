@@ -16,7 +16,7 @@ cmake_minimum_required(VERSION 3.25)
 # )
 
 
-set(STD_MODULES
+set(STD_HEADERS
     coroutine
     string
     iostream
@@ -62,17 +62,21 @@ set(STD_MODULES
     cwchar
     cwctype
 )
-add_custom_target(std_header_units ALL
-    COMMAND ${CMAKE_COMMAND} -E echo "Building standard library header units"
-    COMMAND
-        ${CMAKE_CXX_COMPILER}
-        -std=c++20
-        -c -x c++-system-header ${STD_MODULES}
-        # --precompile
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
+add_custom_target(std_header_units)
+foreach(header ${STD_HEADERS})
+    add_custom_command(
+        OUTPUT ${CMAKE_BINARY_DIR}/${header}.pcm
+        COMMAND
+            ${CMAKE_CXX_COMPILER}
+            -std=c++20
+            -c -x c++-system-header ${header}
+            # --precompile
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+    target_sources(std_header_units PRIVATE ${CMAKE_BINARY_DIR}/${header}.pcm)
+endforeach()
 
-add_library(stdhu OBJECT)
+add_library(stdhu)
 target_compile_features(stdhu PUBLIC cxx_std_20)
 add_dependencies(stdhu std_header_units)
 target_compile_options(stdhu PUBLIC
@@ -123,6 +127,11 @@ target_compile_options(stdhu PUBLIC
     -fmodule-file=cwchar.pcm
     -fmodule-file=cwctype.pcm
 )
+# target_compile_options(stdhu PUBLIC
+#     -fprebuilt-implicit-modules
+#     -fprebuilt-module-path=${CMAKE_BINARY_DIR}
+#     #-fimplicit-module-maps
+# )
 
 FILE(GLOB_RECURSE SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cppm)
 target_sources(stdhu PUBLIC
