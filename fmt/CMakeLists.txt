@@ -21,13 +21,11 @@ endforeach()
 
 # Library from https://github.com/ChuanqiXu9/stdmodules
 add_library(fmt-module OBJECT)
-add_dependencies(fmt-module fmt_header_units)
-target_compile_options(fmt-module PUBLIC -fmodule-file=fmt.core.pcm)
 target_compile_features(fmt-module PUBLIC cxx_std_20)
+target_compile_options(fmt-module PUBLIC -fmodule-file=fmt.core.pcm)
 target_compile_definitions(fmt-module PRIVATE __cpp_modules=1)
+add_dependencies(fmt-module fmt_header_units)
 target_link_libraries(fmt-module PUBLIC stdhu)
-
-#WARNING: this is compiled with gcc?
 target_link_libraries(fmt-module PUBLIC CONAN_PKG::fmt)
 
 

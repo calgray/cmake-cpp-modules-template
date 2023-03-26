@@ -6,8 +6,15 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 #if defined(__cpp_modules)
+#if __has_include(<unistd.h>) and __has_include(<sys/wait.h>)
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
+#if defined(__cpp_exceptions)
+#include <exception>
+#endif
 export module boost.ut;
-// import std;
+export import stdhu;
 #else
 #pragma once
 #endif
@@ -52,7 +59,7 @@ export module boost.ut;
 #endif
 
 #if defined(BOOST_UT_FORWARD)
-// #include <vector>
+#include <vector>
 namespace std {
 template <class TLhs, class TRhs>
 auto operator==(TLhs, TRhs) -> bool;
@@ -67,20 +74,6 @@ auto operator>(TLhs, TRhs) -> bool;
 template <class TLhs, class TRhs>
 auto operator>=(TLhs, TRhs) -> bool;
 }  // namespace std
-#else
-#include <array>
-#include <iostream>
-#include <sstream>
-#include <string_view>
-#include <utility>
-#include <vector>
-#if __has_include(<unistd.h>) and __has_include(<sys/wait.h>)
-#include <sys/wait.h>
-#include <unistd.h>
-#endif
-#if defined(__cpp_exceptions)
-#include <exception>
-#endif
 #endif
 
 #if defined(__cpp_modules)

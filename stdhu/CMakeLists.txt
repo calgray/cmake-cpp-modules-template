@@ -19,6 +19,7 @@ cmake_minimum_required(VERSION 3.25)
 set(STD_HEADERS
     coroutine
     string
+    string_view
     iostream
     numeric
     vector
@@ -79,7 +80,7 @@ foreach(header ${STD_HEADERS})
     target_sources(std_header_units PRIVATE ${CMAKE_BINARY_DIR}/${header}.pcm)
 endforeach()
 
-add_library(stdhu OBJECT)
+add_library(stdhu)
 target_compile_features(stdhu PUBLIC cxx_std_20)
 add_dependencies(stdhu std_header_units)
 target_compile_options(stdhu PUBLIC
@@ -88,6 +89,7 @@ target_compile_options(stdhu PUBLIC
     -fmodule-file=cstdio.pcm
     -fmodule-file=coroutine.pcm
     -fmodule-file=string.pcm
+    -fmodule-file=string_view.pcm
     -fmodule-file=iostream.pcm
     -fmodule-file=numeric.pcm
     -fmodule-file=vector.pcm

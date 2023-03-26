@@ -1,23 +1,19 @@
 
-// TODO: For some reason explicit includes are still needed
-// in this compilation unit with the header module units to
+// TODO: For some reason iostream is still needed
+// to be explicitly imported/included here to
 // avoid segmentation faults.
 
 // Maybe use an intermediate main module?
-
-#include <string>
-#include <iostream>
-#include <cmath>
+import <iostream>;
 
 import foo;
 import bar;
 
 int main(int argc, char** argv)
 {
-  std::cout << "helloworld\n";
-  foo f;
-  f.print();
-  bar b;
-  b.print();
-  return 0;
+    foo f;
+    f.print();
+    bar b;
+    b.print();
+    return 0;
 }
