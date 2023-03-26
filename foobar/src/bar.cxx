@@ -19,6 +19,6 @@ public:
 
 void bar::print()
 {
-  //fmt::print("bar");
+  fmt::print("bar\n");
   std::cout << "bar\n";
 }

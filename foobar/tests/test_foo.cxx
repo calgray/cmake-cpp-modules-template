@@ -1,6 +1,6 @@
 import boost.ut;
 import foo;
-import stdhu;
+//import stdhu;
 
 using namespace boost::ut;
 
@@ -11,5 +11,9 @@ suite foo_suite = [] {
     "name"_test = [] {
         foo f;
         expect(f.name() == "foo");
+    };
+    "print"_test = [] {
+        foo f;
+        f.print();
     };
 };

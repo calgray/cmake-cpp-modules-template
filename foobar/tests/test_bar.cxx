@@ -11,4 +11,8 @@ suite bar_suite = [] {
         bar b;
         expect(b.name() == "bar");
     };
+    "print"_test = [] {
+        bar b;
+        b.print();
+    };
 };
