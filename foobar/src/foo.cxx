@@ -4,8 +4,9 @@
 
 // first thing after the Global module fragment must be a module command
 export module foo;
-export import <string>;
-export import <iostream>;
+import stdcxx;
+//export import <string>;
+//export import <iostream>;
 
 export class foo
 {

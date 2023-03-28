@@ -20,16 +20,16 @@ get_target_property(FMT_INCLUDES CONAN_PKG::fmt INTERFACE_INCLUDE_DIRECTORIES)
 endforeach()
 
 # Library from https://github.com/ChuanqiXu9/stdmodules
-add_library(fmt-module OBJECT)
-target_compile_features(fmt-module PUBLIC cxx_std_20)
-target_compile_options(fmt-module PUBLIC -fmodule-file=fmt.core.pcm)
-target_compile_definitions(fmt-module PRIVATE __cpp_modules=1)
-add_dependencies(fmt-module fmt_header_units)
-target_link_libraries(fmt-module PUBLIC stdhu)
-target_link_libraries(fmt-module PUBLIC CONAN_PKG::fmt)
+add_library(fmtm)
+target_compile_features(fmtm PUBLIC cxx_std_20)
+target_compile_definitions(fmtm PRIVATE __cpp_modules=1)
+add_dependencies(fmtm fmt_header_units)
+target_link_libraries(fmtm PUBLIC CONAN_PKG::fmt)
 
+# target_compile_options(fmtm PUBLIC -fmodule-file=fmt.core.pcm)
+# target_link_libraries(fmtm PUBLIC stdhu)
 
-target_sources(fmt-module PUBLIC
+target_sources(fmtm PUBLIC
     FILE_SET cxx_modules TYPE CXX_MODULES
     BASE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}

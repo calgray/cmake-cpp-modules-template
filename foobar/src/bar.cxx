@@ -1,10 +1,12 @@
 // Global module fragment where #includes can happen
-module;
-#include <fmt/core.h>
+// module;
+// #include <fmt/core.h>
 
 // first thing after the Global module fragment must be a module command
 export module bar;
-export import <iostream>;
+import stdcxx;
+//export import <iostream>;
+import fmtm;
 
 export class bar
 {
