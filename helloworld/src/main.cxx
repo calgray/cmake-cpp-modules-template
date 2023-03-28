@@ -2,8 +2,6 @@
 // TODO: For some reason iostream is still needed
 // to be explicitly imported/included here to
 // avoid segmentation faults.
-
-// Maybe use an intermediate main module?
 import <iostream>;
 
 import foo;

@@ -1,7 +1,7 @@
 export module foobar.cycle;
 
-import stdcxx;
-// import <iostream>;
+// import stdcxx;
+import <iostream>;
 
 export import :A;
 export import :B;

@@ -1,12 +1,7 @@
-// Global module fragment where #includes can happen
-// module;
-// #include <fmt/core.h>
-
-// first thing after the Global module fragment must be a module command
 export module bar;
-import stdcxx;
-//export import <iostream>;
-import fmtm;
+import fmt.core;
+export import <iostream>;
+export import <memory>;
 
 export class bar
 {
@@ -19,6 +14,8 @@ public:
 
 void bar::print()
 {
-  fmt::print("bar\n");
+  auto a = std::make_shared<int>(1);
+  std::weak_ptr<int> b = a;
+  fmt::print("bar {}\n", *a);
   std::cout << "bar\n";
 }

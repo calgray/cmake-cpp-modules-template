@@ -9,4 +9,5 @@ export namespace std {
     using std::addressof;
     using std::allocator;
     using std::allocator_traits;
+    using std::weak_ptr;
 }

@@ -2,7 +2,7 @@
 boost-ext-ut/1.1.9
 range-v3/0.12.0
 fmt/9.1.0
-#andreasbuhr-cppcoro/cci.20210113
+andreasbuhr-cppcoro/cci.20210113
 #eigen/3.4.0
 
 # entt/3.10.3

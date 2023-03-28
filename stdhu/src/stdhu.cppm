@@ -27,6 +27,7 @@ export import <queue>;
 export import <tuple>;
 export import <initializer_list>;
 export import <limits>;
+export import <ranges>;
 
 export import <cctype>;
 export import <cfenv>;

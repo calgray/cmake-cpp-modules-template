@@ -1,7 +1,7 @@
 export module foobar.cycle:B;
 
-import stdcxx;
-//import <string>;
+// import stdcxx;
+import <string>;
 
 class cycleA;
 export class cycleB {

@@ -46,6 +46,7 @@ set(STD_HEADERS
     tuple
     initializer_list
     limits
+    ranges
     cctype
     cfenv
     cinttypes
@@ -116,6 +117,7 @@ target_compile_options(stdhu PUBLIC
     -fmodule-file=tuple.pcm
     -fmodule-file=initializer_list.pcm
     -fmodule-file=limits.pcm
+    -fmodule-file=ranges.pcm
     -fmodule-file=cctype.pcm
     -fmodule-file=cfenv.pcm
     -fmodule-file=cinttypes.pcm
