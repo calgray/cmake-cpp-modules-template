@@ -7,6 +7,7 @@ export namespace std {
     using std::basic_string;
     using std::string_view;
     using std::basic_string_view;
+    using std::char_traits;
 
     using std::getline;
     

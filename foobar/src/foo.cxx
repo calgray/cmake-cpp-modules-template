@@ -2,7 +2,7 @@
 module;
 #include <unistd.h>
 // #include <cppcoro/generator.hpp>
-// #include <cmath>
+#include <cmath>
 
 // first thing after the Global module fragment must be a module command
 export module foo;
@@ -16,7 +16,6 @@ import <memory>;
 import <ranges>;
 import <coroutine>;
 import <random>;
-// import <cmath>;
 
 template<std::integral T>
 ranges::experimental::generator<T> fibonacci()

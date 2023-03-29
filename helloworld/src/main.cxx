@@ -2,6 +2,9 @@
 // TODO: For some reason iostream is still needed
 // to be explicitly imported/included here to
 // avoid segmentation faults.
+
+#include <cmath>
+
 import <iostream>;
 
 import foo;

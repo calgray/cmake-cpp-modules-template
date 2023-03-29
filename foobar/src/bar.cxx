@@ -1,7 +1,12 @@
+module;
+#include <iostream>
+#include <memory>
+
+
 export module bar;
-import fmt.core;
-export import <iostream>;
-export import <memory>;
+// import fmt.core;
+// export import <iostream>;
+// export import <memory>;
 
 export class bar
 {

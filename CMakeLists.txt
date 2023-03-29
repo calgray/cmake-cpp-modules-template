@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(std_module_example CXX)
+project(std_module_example C CXX)
 
 # C++ Modules
 # CMake 3.25
@@ -37,6 +37,6 @@ add_subdirectory(cppcoro)
 add_subdirectory(fmtm)
 add_subdirectory(ut)
 
-
+add_subdirectory(minimal)
 add_subdirectory(foobar)
 add_subdirectory(helloworld)

@@ -33,7 +33,7 @@ export import <cctype>;
 export import <cfenv>;
 export import <cinttypes>;
 export import <clocale>;
-// export import <cmath>;
+export import <cmath>;
 export import <csetjmp>;
 export import <csignal>;
 export import <cstdarg>;

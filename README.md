@@ -20,6 +20,25 @@ cmake --build build --config Release
 ./build/helloworld/Release/helloworld
 ```
 
+# Notes
+
+* Clang supports both:
+
+GNU std library (-stdlib=libstdc++) which
+can ONLY be exported via header units. Use
+`stdhu` with `minimal`
+
+or 
+
+Clang 16 std library (-stdlib=libc++) which
+can ONLY be exported via a std module. Use
+`stdcxx` and `foobar`
+
+The later is better in preparing libraries for
+module exporting.
+
+
+
 ## Testing
 ```
 ./build/foobar/tests/Release/foobar_tests
