@@ -6,18 +6,11 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 #if defined(__cpp_modules)
-#if __has_include(<unistd.h>) and __has_include(<sys/wait.h>)
-#include <sys/wait.h>
-#include <unistd.h>
-#endif
-#if defined(__cpp_exceptions)
-#include <exception>
-#endif
 export module boost.ut;
 export import stdcxx;
 #else
 #pragma once
-#endif
+#endif // defined(__cpp_modules)
 
 #if defined(_MSC_VER)
 #include <ciso646>  // and, or, not

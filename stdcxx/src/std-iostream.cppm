@@ -1,7 +1,9 @@
 module;
+#include <iosfwd>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <sstream>
 export module stdcxx:iostream;
 export namespace std {
     using std::cout;
@@ -17,8 +19,16 @@ export namespace std {
     using std::basic_ostream;
     using std::iostream;
     using std::ifstream;
-    using std::basic_stringstream;
+
+    // using std::basic_stringstream;
+    // using std::ios_base;
     using std::stringstream;
+    // using std::stringbuf;
+    // using std::wstringbuf;
+    // using std::basic_streambuf;
+    // using std::basic_iostream;
+    // using std::basic_ios;
+
     using std::operator<<;
     using std::operator>>;
-}
+};

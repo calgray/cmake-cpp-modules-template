@@ -8,6 +8,7 @@ export namespace std {
     using std::string_view;
     using std::basic_string_view;
     using std::char_traits;
+    using std::stoi;
 
     using std::getline;
     

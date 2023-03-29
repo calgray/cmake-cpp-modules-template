@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.25)
 add_library(rangev3)
 target_compile_features(rangev3 PUBLIC cxx_std_20)
 target_compile_definitions(rangev3 PRIVATE __cpp_modules=1)
-target_link_libraries(rangev3 PUBLIC stdhu)
+target_link_libraries(rangev3 PUBLIC stdcxx)
 target_link_libraries(rangev3 PUBLIC CONAN_PKG::range-v3)
 
 target_sources(rangev3 PUBLIC

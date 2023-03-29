@@ -1,7 +1,10 @@
 export module foobar.cycle:B;
 
-// import stdcxx;
+#ifndef STD_HEADER_UNITS
+import stdcxx;
+#else
 import <string>;
+#endif
 
 class cycleA;
 export class cycleB {

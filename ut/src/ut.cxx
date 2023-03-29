@@ -9,15 +9,15 @@ module;
 // #include <string_view>
 // #include <utility>
 // #include <vector>
-// #if __has_include(<unistd.h>) and __has_include(<sys/wait.h>)
-// #include <sys/wait.h>
-// #include <unistd.h>
-// #endif
-// #if defined(__cpp_exceptions)
-// #include <exception>
-// #endif
+#if __has_include(<unistd.h>) and __has_include(<sys/wait.h>)
+#include <sys/wait.h>
+#include <unistd.h>
+#endif // __has_include(<unistd.h>) and __has_include(<sys/wait.h>)
+#if defined(__cpp_exceptions)
+#include <exception>
+#endif // defined(__cpp_exceptions)
 
 // Extra missing library
-#include <iosfwd>
+// #include <iosfwd>
 
 #include "boost/ut.hpp"

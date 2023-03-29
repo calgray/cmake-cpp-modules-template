@@ -14,4 +14,4 @@ target_sources(helloworld PUBLIC
 # )
 
 target_link_libraries(helloworld foobar)
-target_link_libraries(helloworld ut)
+# target_link_libraries(helloworld ut)

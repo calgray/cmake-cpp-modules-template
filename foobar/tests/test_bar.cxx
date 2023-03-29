@@ -1,9 +1,14 @@
 
+import boost.ut;
+import bar;
+
+#ifndef STD_HEADER_UNITS
+import stdcxx;
+#else
 import <array>;
 import <iostream>;
 import <vector>;
-import boost.ut;
-import bar;
+#endif
 
 using namespace boost::ut;
 

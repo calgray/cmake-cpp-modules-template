@@ -1,12 +1,15 @@
-module;
-#include <range/v3/all.hpp>
-
 export module lib;
 import stdcxx;
+import range_v3;
+import fmt.core;
+import boost.ut;
 
 export void function()
 {
-    std::string s = "sdad";
-    std::cout << ranges::views::iota(0,10) << "\n";
-    std::cout << "hello world" << std::endl;
+    std::stringstream ss;
+    ss << "hello world";
+    std::string s = ss.str();
+    std::cout << s << std::endl;
+
+    fmt::print("hello fmt");
 }

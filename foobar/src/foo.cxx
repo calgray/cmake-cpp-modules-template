@@ -1,15 +1,9 @@
-// Global module fragment where #includes can happen
-module;
-#include <unistd.h>
-// #include <cppcoro/generator.hpp>
-#include <cmath>
 
-// first thing after the Global module fragment must be a module command
 export module foo;
-import cppcoro;
+// import cppcoro;
 import range_v3;
 
-#if STD_HEADER_UNITS
+#ifndef STD_HEADER_UNITS
 import stdcxx;
 #else
 import <vector>;
@@ -52,7 +46,7 @@ public:
 
 void foo::print()
 {
-  // std ranges doesn't work in as many places as ranges-v3
+  // // std ranges doesn't work in as many places as ranges-v3
   // for (auto x : std::views::iota(0,10) | std::views::take(5))
   // {
   //   std::cout << x;

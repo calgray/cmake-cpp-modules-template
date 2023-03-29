@@ -4,16 +4,8 @@ module;
 
 export module range_v3;
 
-#if STD_HEADER_UNITS
+#ifndef STD_HEADER_UNITS
 import stdcxx;
-#else
-import <vector>;
-import <string>;
-import <iostream>;
-import <memory>;
-import <ranges>;
-import <coroutine>;
-import <random>;
 #endif
 
 

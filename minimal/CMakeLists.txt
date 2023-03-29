@@ -13,7 +13,7 @@ target_sources(minimal PUBLIC
 )
 
 
-target_compile_features(stdhu PUBLIC cxx_std_20)
+target_compile_features(minimal PUBLIC cxx_std_20)
 target_compile_options(minimal PUBLIC -stdlib=libc++)
 target_link_options(minimal PUBLIC -stdlib=libc++)
 target_include_directories(minimal SYSTEM PUBLIC /opt/clang/16.0.0/include)
@@ -25,5 +25,7 @@ target_compile_definitions(minimal PUBLIC
 )
 target_link_directories(minimal PUBLIC /opt/clang/16.0.0/lib)
 target_link_libraries(minimal PUBLIC LLVM-16)
-# target_link_libraries(minimal PUBLIC rangev3)
 target_link_libraries(minimal PUBLIC stdcxx)
+target_link_libraries(minimal PUBLIC rangev3)
+target_link_libraries(minimal PUBLIC fmtm)
+target_link_libraries(minimal PUBLIC ut)

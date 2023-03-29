@@ -1,5 +1,6 @@
 export module stdcxx;
 
+export import :concepts;
 export import :coroutine;
 export import :string;
 export import :iostream;
@@ -27,6 +28,7 @@ export import :queue;
 export import :tuple;
 export import :initializer_list;
 export import :limits;
+export import :numbers;
 
 export import :cctype;
 export import :cfenv;

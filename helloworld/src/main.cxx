@@ -3,9 +3,11 @@
 // to be explicitly imported/included here to
 // avoid segmentation faults.
 
-#include <cmath>
-
+#ifndef STD_HEADER_UNITS
+import stdcxx;
+#else
 import <iostream>;
+#endif
 
 import foo;
 import bar;
