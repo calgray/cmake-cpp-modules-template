@@ -15,10 +15,6 @@ cmake_minimum_required(VERSION 3.25)
 #         /usr/include/c++/12.2.1/iostream
 # )
 
-execute_process(COMMAND llvm-config --cxxflags OUTPUT_VARIABLE LLVM_CXXFLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-execute_process(COMMAND llvm-config --ldflags OUTPUT_VARIABLE LLVM_LDFLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-execute_process(COMMAND llvm-config --libs OUTPUT_VARIABLE LLVM_LIBS OUTPUT_STRIP_TRAILING_WHITESPACE)
-
 
 set(STD_HEADERS
     coroutine
@@ -55,7 +51,8 @@ set(STD_HEADERS
     cfenv
     cinttypes
     clocale
-    cmath
+    # cmath
+    math.h
     csetjmp
     csignal
     cstdarg
@@ -76,7 +73,7 @@ foreach(header ${STD_HEADERS})
         COMMAND
             ${CMAKE_CXX_COMPILER}
             -std=c++20
-            -stdlib=libc++
+            # -stdlib=libc++
             -c -x c++-system-header
             --precompile
             ${header}
@@ -91,6 +88,7 @@ add_dependencies(stdhu std_header_units)
 # This does not work for clang libc++
 # target_link_options(stdhu PUBLIC -stdlib=libc++)
 # target_compile_options(stdhu PUBLIC -stdlib=libc++)
+target_compile_definitions(stdhu PUBLIC -DSTD_HEADER_UNITS=1)
 target_compile_options(stdhu PUBLIC
     -fmodule-file=iostream.pcm
     -fmodule-file=cstdio.pcm
@@ -128,7 +126,8 @@ target_compile_options(stdhu PUBLIC
     -fmodule-file=cfenv.pcm
     -fmodule-file=cinttypes.pcm
     -fmodule-file=clocale.pcm
-    -fmodule-file=cmath.pcm
+    # -fmodule-file=cmath.pcm
+    -fmodule-file=math.pcm
     -fmodule-file=csetjmp.pcm
     -fmodule-file=csignal.pcm
     -fmodule-file=cstdarg.pcm

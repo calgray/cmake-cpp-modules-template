@@ -1,4 +1,4 @@
-export module stdhu;
+export module stdcxx;
 
 export import <coroutine>;
 export import <string>;
@@ -33,7 +33,8 @@ export import <cctype>;
 export import <cfenv>;
 export import <cinttypes>;
 export import <clocale>;
-export import <cmath>;
+// export import <cmath>;
+export import <math.h>;
 export import <csetjmp>;
 export import <csignal>;
 export import <cstdarg>;

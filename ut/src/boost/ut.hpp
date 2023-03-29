@@ -14,7 +14,7 @@
 #include <exception>
 #endif
 export module boost.ut;
-export import stdhu;
+export import stdcxx;
 #else
 #pragma once
 #endif

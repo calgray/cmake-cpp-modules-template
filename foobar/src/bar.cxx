@@ -1,12 +1,12 @@
-module;
-#include <iostream>
-#include <memory>
-
-
 export module bar;
-// import fmt.core;
-// export import <iostream>;
-// export import <memory>;
+
+#if STD_HEADER_UNITS
+import fmt.core;
+import stdcxx;
+#else
+import <iostream>;
+import <memory>;
+#endif
 
 export class bar
 {
