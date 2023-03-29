@@ -4,7 +4,7 @@
 // avoid segmentation faults.
 
 #ifndef STD_HEADER_UNITS
-import stdcxx;
+// import stdcxx;
 #else
 import <iostream>;
 #endif

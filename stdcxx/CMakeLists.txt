@@ -6,6 +6,7 @@ target_compile_features(stdcxx PUBLIC cxx_std_20)
 
 # TODO: use clang stdc++
 target_compile_options(stdcxx PUBLIC -stdlib=libc++)
+target_link_options(stdcxx PUBLIC -stdlib=libc++)
 
 FILE(GLOB_RECURSE SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cppm)
 target_sources(stdcxx PUBLIC
