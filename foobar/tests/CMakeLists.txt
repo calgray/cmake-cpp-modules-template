@@ -8,6 +8,8 @@ target_sources(foobar_tests PUBLIC
     test_foo.cxx
     test_bar.cxx
     test_cycle.cxx
+    test_coro.cxx
 )
 target_link_libraries(foobar_tests PRIVATE foobar)
 target_link_libraries(foobar_tests PRIVATE ut)
+target_link_libraries(foobar_tests PUBLIC cppcorom)

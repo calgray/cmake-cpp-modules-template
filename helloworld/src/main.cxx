@@ -2,10 +2,7 @@
 // TODO: For some reason iostream is still needed
 // to be explicitly imported/included here to
 // avoid segmentation faults.
-
-#ifndef STD_HEADER_UNITS
-// import stdcxx;
-#else
+#if STD_HEADER_UNITS
 import <iostream>;
 #endif
 
