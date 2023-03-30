@@ -26,3 +26,8 @@ export namespace cppcoro
 
     using cppcoro::single_consumer_event;
 };
+
+export namespace cppcoro
+{
+    using cppcoro::detail::when_all_task;
+};
