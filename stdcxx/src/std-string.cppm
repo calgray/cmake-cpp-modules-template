@@ -1,5 +1,6 @@
 module;
 #include <string>
+#include <string_view>
 export module stdcxx:string;
 
 export namespace std {
@@ -9,6 +10,8 @@ export namespace std {
     using std::basic_string_view;
     using std::char_traits;
     using std::stoi;
+    using std::stoul;
+    using std::stoull;
 
     using std::getline;
     

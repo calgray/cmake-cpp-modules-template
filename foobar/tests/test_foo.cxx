@@ -1,4 +1,3 @@
-
 import boost.ut;
 import foo;
 

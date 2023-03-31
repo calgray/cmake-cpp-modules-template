@@ -1,4 +1,3 @@
-
 export module foo;
 // import cppcoro;
 import range_v3;
@@ -46,6 +45,7 @@ public:
 
 void foo::print()
 {
+  //const std::regex pattern = std::regex("");
   // // std ranges doesn't work in as many places as ranges-v3
   // for (auto x : std::views::iota(0,10) | std::views::take(5))
   // {

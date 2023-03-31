@@ -7,4 +7,5 @@ export namespace std {
     using std::copy;
     using std::min;
     using std::count;
+    using std::for_each;
 }

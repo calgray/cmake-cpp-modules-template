@@ -23,6 +23,7 @@ export namespace std {
     // using std::basic_stringstream;
     // using std::ios_base;
     using std::stringstream;
+    using std::ostringstream;
     // using std::stringbuf;
     // using std::wstringbuf;
     // using std::basic_streambuf;

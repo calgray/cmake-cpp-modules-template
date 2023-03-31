@@ -1,5 +1,5 @@
 // For structured binding to data members
-// #include <tuple>
+#include <tuple>
 
 import boost.ut;
 import stdcxx;

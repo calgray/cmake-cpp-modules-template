@@ -10,3 +10,6 @@ target_sources(ut PUBLIC
 target_link_libraries(ut PUBLIC stdcxx)
 # target_link_libraries(ut PUBLIC stdhu)
 target_link_libraries(ut PUBLIC CONAN_PKG::boost-ext-ut)
+
+
+target_include_directories(ut PUBLIC src)
