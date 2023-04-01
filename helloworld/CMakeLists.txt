@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.26)
 
 add_executable(helloworld)
 target_sources(helloworld PUBLIC

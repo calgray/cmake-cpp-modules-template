@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.26)
 
 # Library from https://github.com/ChuanqiXu9/stdmodules
 add_library(stdcxx)
