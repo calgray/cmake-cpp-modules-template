@@ -1,4 +1,5 @@
 module;
+#include <new>
 #include <vector>
 export module stdcxx:vector;
 export namespace std {

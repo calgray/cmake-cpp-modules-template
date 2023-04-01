@@ -1,5 +1,5 @@
 module;
-//#include <new> // std-vector.cppm
+#include <new>
 #include <cppcoro/task.hpp>
 #include <cppcoro/shared_task.hpp>
 #include <cppcoro/generator.hpp>

@@ -1,6 +1,18 @@
-# CMake Modules C++20
+# CMake C++20 Modules Template
 
-Example project for C++20 module support in CMake. For more information see https://www.kitware.com/import-cmake-c20-modules/.
+Template project for C++20 module support in CMake. For more information see https://www.kitware.com/import-cmake-c20-modules/.
+
+## Features
+
+* Conan support and profiles
+* Modularized library targets for:
+  - Standard Library (stdcxx)
+  - fmt 
+  - cppcoro
+  - range-v3
+  - boost-ext-ut
+* Sample unit tests
+
 
 ## Requirements
 
@@ -9,33 +21,25 @@ Example project for C++20 module support in CMake. For more information see http
 * clang>=16.0.0
 * gcc>=13.0.0 (future work)
 
-## Build Command
+## Build Command (Ninja+Clang)
 ```
 mkdir build
-conan install . -g cmake_multi -if build -s build_type=Release --build=missing --profile=profile.txt
 conan install . -g cmake_multi -if build -s build_type=Debug --build=missing --profile=profile.txt
+conan install . -g cmake_multi -if build -s build_type=Release --build=missing --profile=profile.txt
 cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER=/opt/clang/16.0.0/bin/clang++ -DCONAN_COMPILER=clang
 cmake --build build --config Release
 
 ./build/helloworld/Release/helloworld
 ```
 
-# Notes
+## Notes
 
-* Clang supports both:
+Clang supports either:
 
-GNU std library (-stdlib=libstdc++) which
-can ONLY be exported via header units. Use
-`stdhu` with `minimal`
+* GNU std library (-stdlib=libstdc++) which can ONLY be exported via header units. See `stdhu`.
+* Clang 16 std library (-stdlib=libc++) which can ONLY be exported via a std module. Use `stdcxx` and `foobar`
 
-or 
-
-Clang 16 std library (-stdlib=libc++) which
-can ONLY be exported via a std module. Use
-`stdcxx` and `foobar`
-
-The later is better in preparing libraries for
-module exporting.
+The later is better for now in preparing libraries for modules.
 
 
 
