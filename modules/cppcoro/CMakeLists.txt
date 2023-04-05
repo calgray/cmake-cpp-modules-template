@@ -11,5 +11,5 @@ target_sources(cppcoro-modules PUBLIC
     BASE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
     FILES
-    src/cppcoro.cxx
+    src/cppcoro.cppm
 )

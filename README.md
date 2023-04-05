@@ -5,17 +5,18 @@ Template project for C++20 module support in CMake. For more information see htt
 ## Features
 
 * Conan support and profiles
-* Modularized library targets for:
-
-| Library     |   Import Name | CMake Target |
-|:------------|:--------------|:-------------|
-| std         | stdcxx        | stdcxx       |
-| fmt         | fmt.core      | fmt-modules         |
-| range-v3    | range_v3      | range-v3-modules      |
-| cppcoro     | cppcoro       | cppcoro-modules     |
-| boost-ex-ut | boost.ut      | ut           |
-
+* Modularized library targets for common libraries
 * Sample unit tests
+
+## Libraries
+
+| Library     |   Import Name | CMake Target         |
+|:------------|:--------------|:---------------------|
+| std         | stdcxx        | stdcxx               |
+| fmt         | fmt.core      | fmt-modules          |
+| range-v3    | range_v3      | range-v3-modules     |
+| cppcoro     | cppcoro       | cppcoro-modules      |
+| boost-ex-ut | boost.ut      | boost-ext-ut-modules |
 
 
 ## Requirements
