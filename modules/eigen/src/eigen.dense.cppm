@@ -2,7 +2,7 @@ module;
 
 #include <Eigen/Dense>
 
-export module eigen:dense;
+export module eigen.dense;
 
 import stdcxx;
 

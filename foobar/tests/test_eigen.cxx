@@ -1,9 +1,7 @@
 
 import boost.ut;
-import bar;
-
 import stdcxx;
-import eigen;
+import eigen.dense;
 
 
 using namespace boost::ut;

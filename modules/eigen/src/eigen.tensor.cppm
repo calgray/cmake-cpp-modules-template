@@ -4,7 +4,7 @@ module;
 #include <eigen3/unsupported/CXX11/Tensor>
 #endif
 
-export module eigen:tensor;
+export module eigen.tensor;
 
 #if __has_include(<eigen3/unsupported/CXX11/Tensor>)
 import stdcxx;

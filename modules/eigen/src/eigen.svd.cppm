@@ -2,7 +2,7 @@ module;
 
 #include <Eigen/SVD>
 
-export module eigen:svd;
+export module eigen.svd;
 
 import stdcxx;
 

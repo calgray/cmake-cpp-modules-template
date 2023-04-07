@@ -2,7 +2,7 @@ module;
 
 #include <Eigen/QR>
 
-export module eigen:qr;
+export module eigen.qr;
 
 import stdcxx;
 

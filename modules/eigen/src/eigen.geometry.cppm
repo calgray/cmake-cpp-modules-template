@@ -2,7 +2,7 @@ module;
 
 #include <Eigen/Geometry>
 
-export module eigen:geometry;
+export module eigen.geometry;
 
 import stdcxx;
 
