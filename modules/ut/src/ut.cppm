@@ -32,7 +32,4 @@ module;
 #include <source_location>
 #endif // __has_include(<source_location>)
 
-// Extra missing library
-// #include <iosfwd>
-
 #include "boost/ut.hpp"

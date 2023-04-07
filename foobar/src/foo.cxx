@@ -17,8 +17,8 @@ import <random>;
 template<std::integral T>
 ranges::experimental::generator<T> fibonacci()
 {
-    // a:b tend to the golden ratio, t.f. max_n ~= log_phi(numeric_max)
-    //constexpr
+    // a:b tends to the golden ratio,
+    // t.f. max_n ~= log_phi(numeric_max)
     T max_n = 1 + std::log2(std::numeric_limits<T>::max())
                     / std::log2(std::numbers::phi_v<float>);
 

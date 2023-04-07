@@ -10,14 +10,16 @@ Template project for C++20 module support in CMake. For more information see htt
 
 ## Libraries
 
-| Library     |   Import Name | CMake Target         |
+| Library     | Import Name   | CMake Target         |
 |:------------|:--------------|:---------------------|
 | std         | stdcxx        | stdcxx               |
 | fmt         | fmt.core      | fmt-modules          |
 | range-v3    | range_v3      | range-v3-modules     |
 | cppcoro     | cppcoro       | cppcoro-modules      |
+| Eigen       | eigen         | eigen-modules        |
 | boost-ex-ut | boost.ut      | boost-ext-ut-modules |
 
+(module std is reserved for future standards)
 
 ## Requirements
 

@@ -20,11 +20,17 @@ suite coro_suite = [] {
         cppcoro::single_consumer_event event;
 
         auto t1 = [&]() -> cppcoro::task<int> {
+            std::this_thread::sleep_for(
+                std::chrono::nanoseconds(100)
+            );
             before = true;
             event.set();
             co_return 5;
         };
         auto t2 = [&]() -> cppcoro::task<int> {
+            std::this_thread::sleep_for(
+                std::chrono::nanoseconds(100)
+            );
             co_await event;
             after = true;
             co_return 5;
@@ -43,9 +49,5 @@ suite coro_suite = [] {
         expect(res == 10);
         expect(before);
         expect(after);
-        std::cout << res << std::endl;
-
-        // std::this_thread::sleep_for(std::chrono::nanoseconds(100));
-        // co_await asleep(std::chrono::nanoseconds(100));
     };
 };

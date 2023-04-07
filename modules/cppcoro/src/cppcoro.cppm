@@ -9,6 +9,8 @@ module;
 #include <cppcoro/when_all_ready.hpp>
 #include <cppcoro/single_consumer_event.hpp>
 
+#include <eigen3/Eigen/Core>
+
 export module cppcoro;
 
 import stdcxx;

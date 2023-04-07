@@ -32,6 +32,7 @@ add_subdirectory(modules/stdcxx)
 add_subdirectory(modules/range-v3)
 add_subdirectory(modules/cppcoro)
 add_subdirectory(modules/fmt)
+add_subdirectory(modules/eigen)
 add_subdirectory(modules/ut)
 
 add_subdirectory(foobar)
