@@ -16,8 +16,15 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   include(cmake/gcc_modules.cmake)
 endif()
 
+# Ninja has a bug where color terminal isnt detected when piping
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+endif()
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CUDA_HOST_COMPILER clang)
+set(CMAKE_CUDA_ARCHITECTURES 86)
+enable_language(CXX CUDA)
 
 # Conan
 get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
@@ -28,11 +35,21 @@ else()
 endif()
 conan_basic_setup(TARGETS) # Introduce Conan-generated targets
 
+
+
+# set(CMAKE_CUDA_VERBOSE_FLAG "-v")
+# set(CMAKE_CUDA_VERBOSE_COMPILE_FLAG "-Xcompiler=-v")
+# set(_CMAKE_COMPILE_AS_CUDA_FLAG "-x cu")
+# set(_CMAKE_CUDA_WHOLE_FLAG "-c")
+# set(_CMAKE_CUDA_RDC_FLAG "-rdc=true")
+# set(_CMAKE_CUDA_PTX_FLAG "-ptx")
+
 add_subdirectory(modules/stdcxx)
 add_subdirectory(modules/range-v3)
 add_subdirectory(modules/cppcoro)
 add_subdirectory(modules/fmt)
 add_subdirectory(modules/eigen)
+add_subdirectory(modules/cuda)
 add_subdirectory(modules/ut)
 
 add_subdirectory(foobar)
