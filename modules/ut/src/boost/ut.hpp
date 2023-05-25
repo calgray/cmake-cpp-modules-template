@@ -7,7 +7,7 @@
 //
 #if defined(__cpp_modules)
 export module boost.ut;
-export import stdcxx;
+import stdcxx;
 #else
 #pragma once
 #endif // defined(__cpp_modules)

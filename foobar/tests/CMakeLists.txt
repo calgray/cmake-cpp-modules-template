@@ -10,6 +10,7 @@ target_sources(foobar_tests PUBLIC
     test_cycle.cxx
     test_coro.cxx
     test_eigen.cxx
+    test_cuda.cxx
 )
 target_link_libraries(foobar_tests PRIVATE foobar)
 target_link_libraries(foobar_tests PRIVATE boost-ext-ut-modules)

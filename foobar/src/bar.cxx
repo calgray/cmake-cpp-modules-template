@@ -1,12 +1,7 @@
 export module bar;
 
-#ifndef STD_HEADER_UNITS
 import fmt.core;
 import stdcxx;
-#else
-import <iostream>;
-import <memory>;
-#endif
 
 export class bar
 {

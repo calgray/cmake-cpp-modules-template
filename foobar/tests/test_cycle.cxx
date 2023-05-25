@@ -1,13 +1,8 @@
 import boost.ut;
 import foobar.cycle;
 
-#ifndef STD_HEADER_UNITS
 import stdcxx;
-#else
-import <array>;
-import <iostream>;
-import <vector>;
-#endif
+
 
 using namespace boost::ut;
 

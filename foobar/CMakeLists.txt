@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.26)
 
 add_library(foobar)
 target_compile_features(foobar PUBLIC cxx_std_20)
-# target_link_libraries(foobar PUBLIC stdhu)
 target_link_libraries(foobar PUBLIC stdcxx)
 target_link_libraries(foobar PUBLIC fmt-modules)
 target_link_libraries(foobar PUBLIC range-v3-modules)
-# target_link_libraries(foobar PUBLIC cppcoro)
+target_link_libraries(foobar PUBLIC cuda-modules)
+target_link_libraries(foobar PUBLIC cppcoro-modules)
 
 target_sources(foobar PUBLIC
     FILE_SET cxx_modules TYPE CXX_MODULES
@@ -18,5 +18,10 @@ target_sources(foobar PUBLIC
         src/cycle.cxx
         src/cycleA.cxx
         src/cycleB.cxx
+        src/compute.ixx
 )
+target_sources(foobar PUBLIC
+        src/compute.cu
+)
+
 add_subdirectory(tests)
