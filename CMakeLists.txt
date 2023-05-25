@@ -36,14 +36,6 @@ endif()
 conan_basic_setup(TARGETS) # Introduce Conan-generated targets
 
 
-
-# set(CMAKE_CUDA_VERBOSE_FLAG "-v")
-# set(CMAKE_CUDA_VERBOSE_COMPILE_FLAG "-Xcompiler=-v")
-# set(_CMAKE_COMPILE_AS_CUDA_FLAG "-x cu")
-# set(_CMAKE_CUDA_WHOLE_FLAG "-c")
-# set(_CMAKE_CUDA_RDC_FLAG "-rdc=true")
-# set(_CMAKE_CUDA_PTX_FLAG "-ptx")
-
 add_subdirectory(modules/stdcxx)
 add_subdirectory(modules/range-v3)
 add_subdirectory(modules/cppcoro)

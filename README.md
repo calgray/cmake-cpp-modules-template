@@ -10,6 +10,8 @@ Template project for C++20 module support in CMake. For more information see htt
 
 ## Libraries
 
+(module name **std** is reserved for future standards)
+
 | Library     | Import Name   | CMake Target         |
 |:------------|:--------------|:---------------------|
 | std         | stdcxx        | stdcxx               |
@@ -17,9 +19,8 @@ Template project for C++20 module support in CMake. For more information see htt
 | range-v3    | range_v3      | range-v3-modules     |
 | cppcoro     | cppcoro       | cppcoro-modules      |
 | Eigen       | eigen         | eigen-modules        |
+| Cuda        | cuda          | cuda-modules         |
 | boost-ex-ut | boost.ut      | boost-ext-ut-modules |
-
-(module std is reserved for future standards)
 
 ## Requirements
 

@@ -1,11 +1,6 @@
 export module foobar.cycle;
 
-// import stdcxx;
-#ifndef STD_HEADER_UNITS
 import stdcxx;
-#else
-import <iostream>;
-#endif
 
 export import :A;
 export import :B;
