@@ -22,9 +22,10 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CUDA_HOST_COMPILER clang)
-set(CMAKE_CUDA_ARCHITECTURES 86)
-enable_language(CXX CUDA)
+
+#set(CMAKE_CUDA_HOST_COMPILER clang)
+#set(CMAKE_CUDA_ARCHITECTURES 86)
+#enable_language(CXX CUDA)
 
 # Conan
 get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
@@ -38,10 +39,10 @@ conan_basic_setup(TARGETS) # Introduce Conan-generated targets
 
 add_subdirectory(modules/stdcxx)
 add_subdirectory(modules/range-v3)
-add_subdirectory(modules/cppcoro)
+# add_subdirectory(modules/cppcoro)
 add_subdirectory(modules/fmt)
 add_subdirectory(modules/eigen)
-add_subdirectory(modules/cuda)
+#add_subdirectory(modules/cuda)
 add_subdirectory(modules/ut)
 
 add_subdirectory(foobar)

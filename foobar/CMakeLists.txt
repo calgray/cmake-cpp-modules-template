@@ -5,8 +5,8 @@ target_compile_features(foobar PUBLIC cxx_std_20)
 target_link_libraries(foobar PUBLIC stdcxx)
 target_link_libraries(foobar PUBLIC fmt-modules)
 target_link_libraries(foobar PUBLIC range-v3-modules)
-target_link_libraries(foobar PUBLIC cuda-modules)
-target_link_libraries(foobar PUBLIC cppcoro-modules)
+# target_link_libraries(foobar PUBLIC cuda-modules)
+# target_link_libraries(foobar PUBLIC cppcoro-modules)
 
 target_sources(foobar PUBLIC
     FILE_SET cxx_modules TYPE CXX_MODULES
@@ -18,10 +18,10 @@ target_sources(foobar PUBLIC
         src/cycle.cxx
         src/cycleA.cxx
         src/cycleB.cxx
-        src/compute.ixx
+        #src/cuda_hello.cxx
 )
-target_sources(foobar PUBLIC
-        src/compute.cu
-)
+# target_sources(foobar PUBLIC
+#         src/cuda_hello.cu
+# )
 
 add_subdirectory(tests)

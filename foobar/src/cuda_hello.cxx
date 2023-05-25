@@ -1,7 +1,6 @@
 module;
-#include <cuda_runtime.h>
-__host__ int cuda_hello(int v);
-
+#include "cuda_hello.h"
 export module cuda_hello;
+import cuda;
 
 export using ::cuda_hello;

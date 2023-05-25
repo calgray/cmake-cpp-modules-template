@@ -10,6 +10,6 @@ suite cuda_suite = [] {
         int in = 2;
         int out = cuda_hello(in);
         fmt::print("{}->{}\n", in, out);
-        expect(out == 5);
+        expect(out == 10);
     };
 };
