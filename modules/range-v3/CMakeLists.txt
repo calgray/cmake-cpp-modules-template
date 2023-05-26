@@ -1,16 +1,19 @@
 cmake_minimum_required(VERSION 3.26)
 
-add_library(range-v3-modules)
-target_compile_features(range-v3-modules PUBLIC cxx_std_20)
-target_compile_definitions(range-v3-modules PRIVATE __cpp_modules=1)
-target_link_libraries(range-v3-modules PUBLIC stdcxx)
-target_link_libraries(range-v3-modules PUBLIC CONAN_PKG::range-v3)
+set(TARGET_NAME range-v3-modules)
+add_library(${TARGET_NAME})
+target_link_libraries(${TARGET_NAME} PUBLIC stdcxx)
+target_link_libraries(${TARGET_NAME} PUBLIC CONAN_PKG::range-v3)
+target_compile_definitions(${TARGET_NAME} PUBLIC __cpp_coroutines=202000L)
 
 FILE(GLOB_RECURSE SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cppm)
-target_sources(range-v3-modules PUBLIC
+target_sources(${TARGET_NAME} PUBLIC
     FILE_SET cxx_modules TYPE CXX_MODULES
     BASE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
     FILES
     ${SRCS}
 )
+
+# cppm is non-standard by gcc
+set_source_files_properties(${SRCS} PROPERTIES LANGUAGE CXX)

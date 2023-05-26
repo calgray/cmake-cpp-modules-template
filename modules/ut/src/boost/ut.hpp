@@ -6,8 +6,6 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 #if defined(__cpp_modules)
-export module boost.ut;
-import stdcxx;
 #else
 #pragma once
 #endif // defined(__cpp_modules)

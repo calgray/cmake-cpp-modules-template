@@ -4,10 +4,10 @@ arch_build=x86_64
 build_type=Release
 compiler=clang
 compiler.libcxx=libc++
-compiler.version=17
+compiler.version=16
 os=Linux
 os_build=Linux
 
 [env]
-CC=/usr/lib/llvm-17/bin/clang
-CXX=/usr/lib/llvm-17/bin/clang++
+CC=/opt/clang/16.0.0/bin/clang
+CXX=/opt/clang/16.0.0/bin/clang++

@@ -32,4 +32,6 @@ module;
 #include <source_location>
 #endif // __has_include(<source_location>)
 
+export module boost.ut;
+import stdcxx;
 #include "boost/ut.hpp"

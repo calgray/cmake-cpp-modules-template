@@ -5,9 +5,10 @@ build_type=Release
 compiler=clang
 compiler.libcxx=libc++
 compiler.version=17
+cppstd=20
 os=Linux
 os_build=Linux
 
 [env]
-CC=/usr/lib/llvm-17/bin/clang
-CXX=/usr/lib/llvm-17/bin/clang++
+CC=/usr/bin/clang-17
+CXX=/usr/bin/clang++-17

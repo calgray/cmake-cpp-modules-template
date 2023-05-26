@@ -1,12 +1,9 @@
 cmake_minimum_required(VERSION 3.26)
 
 find_package(CUDAToolkit REQUIRED)
-enable_language(CUDA)
 
 set(TARGET_NAME cuda-modules)
 add_library(${TARGET_NAME})
-target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
-target_compile_definitions(${TARGET_NAME} PRIVATE __cpp_modules=1)
 target_link_libraries(${TARGET_NAME} PUBLIC stdcxx)
 target_link_libraries(${TARGET_NAME} PUBLIC CUDA::cudart)
 
@@ -18,3 +15,6 @@ target_sources(${TARGET_NAME} PUBLIC
     FILES
     ${SRCS}
 )
+
+# cppm is non-standard by gcc
+set_source_files_properties(${SRCS} PROPERTIES LANGUAGE CXX)
