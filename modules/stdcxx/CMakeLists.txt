@@ -6,6 +6,10 @@ target_compile_features(stdcxx PUBLIC cxx_std_20)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     target_compile_options(stdcxx PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-stdlib=libc++>)
     target_link_options(stdcxx PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-stdlib=libc++>)
+    
+    if(CLANG_VERSION_MAJOR GREATER 16)
+        target_compile_options(stdcxx PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wno-read-modules-implicitly>)
+    endif()
 endif()
 
 FILE(GLOB_RECURSE SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cppm)

@@ -5,11 +5,9 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 //
-#if defined(__cpp_modules)
-export module boost.ut;
-import stdcxx;
-#else
 #pragma once
+#if defined(__cpp_modules)
+#else
 #endif // defined(__cpp_modules)
 
 #if defined(_MSC_VER)

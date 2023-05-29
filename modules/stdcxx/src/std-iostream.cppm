@@ -19,6 +19,7 @@ export namespace std {
     using std::basic_ostream;
     using std::iostream;
     using std::ifstream;
+    using std::streambuf;
 
     // using std::basic_stringstream;
     // using std::ios_base;

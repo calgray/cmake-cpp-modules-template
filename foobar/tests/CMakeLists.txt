@@ -1,18 +1,31 @@
 cmake_minimum_required(VERSION 3.26)
 
+set(TARGET_NAME foobar_tests)
+add_executable(${TARGET_NAME})
+target_link_libraries(${TARGET_NAME} PRIVATE foobar)
+target_link_libraries(${TARGET_NAME} PRIVATE boost-ext-ut-modules)
+target_link_libraries(${TARGET_NAME} PUBLIC eigen-modules)
 
-add_executable(foobar_tests)
-target_compile_features(foobar PUBLIC cxx_std_20)
-target_sources(foobar_tests PUBLIC
+target_sources(${TARGET_NAME} PUBLIC
     main.cxx
     test_foo.cxx
     test_bar.cxx
     test_cycle.cxx
-    test_coro.cxx
+    test_bdd.cxx
     test_eigen.cxx
-    test_cuda.cxx
 )
-target_link_libraries(foobar_tests PRIVATE foobar)
-target_link_libraries(foobar_tests PRIVATE boost-ext-ut-modules)
-target_link_libraries(foobar_tests PUBLIC cppcoro-modules)
-target_link_libraries(foobar_tests PUBLIC eigen-modules)
+if(ENABLE_CUDA)
+    target_link_libraries(${TARGET_NAME} PUBLIC cuda-modules)
+    target_sources(${TARGET_NAME} PUBLIC
+        test_cuda.cxx
+    )
+endif()
+if(ENABLE_CPPCORO)
+    target_link_libraries(${TARGET_NAME} PUBLIC cppcoro-modules)
+    target_sources(${TARGET_NAME} PUBLIC
+        test_coro.cxx
+    )
+endif()
+
+enable_testing()
+add_test(NAME ${TARGET_NAME} COMMAND foobar_tests)

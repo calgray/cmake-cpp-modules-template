@@ -5,7 +5,7 @@ using namespace boost::ut;
 
 suite foo_suite = [] {
     "simple"_test = [] {
-        expect(1 == 1);
+        expect(1 == 1_i);
     };
     "name"_test = [] {
         foo f;

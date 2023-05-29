@@ -54,7 +54,7 @@ void foo::print()
   std::cout << ranges::views::iota(0,10) << "\n";
 
   // // Ranges-v3 Generator
-  for (auto i : fibonacci<int>() | ranges::views::take(100))
+  for (auto i : fibonacci<long long>() | ranges::views::take(100))
   {
       std::cout << i << " ";
   }

@@ -1,10 +1,12 @@
+#include "cuda_hello.h"
+
 #include <cuda.h>
 #include <cstdio>
 
 __global__ void g_cuda_hello(int* v)
 {
-    //std::printf("Hello from Cuda! %i\n", *v);
-    *v = 5;
+    std::printf("Hello from Cuda! %i\n", *v);
+    *v = 10;
 }
 
 __host__ int cuda_hello(int v)
