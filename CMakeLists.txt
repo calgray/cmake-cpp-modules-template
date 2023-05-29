@@ -57,3 +57,6 @@ endif()
 
 add_subdirectory(foobar)
 add_subdirectory(helloworld)
+
+enable_testing()
+list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")

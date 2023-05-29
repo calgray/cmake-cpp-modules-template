@@ -5,9 +5,9 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 //
+#pragma once
 #if defined(__cpp_modules)
 #else
-#pragma once
 #endif // defined(__cpp_modules)
 
 #if defined(_MSC_VER)

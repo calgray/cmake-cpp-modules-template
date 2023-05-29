@@ -26,3 +26,6 @@ if(ENABLE_CPPCORO)
         test_coro.cxx
     )
 endif()
+
+enable_testing()
+add_test(NAME ${TARGET_NAME} COMMAND foobar_tests)

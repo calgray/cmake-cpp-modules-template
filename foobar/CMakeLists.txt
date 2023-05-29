@@ -38,4 +38,5 @@ if(ENABLE_CUDA)
     )
 endif()
 
+enable_testing()
 add_subdirectory(tests)
