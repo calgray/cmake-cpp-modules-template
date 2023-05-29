@@ -7,7 +7,8 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     target_compile_options(stdcxx PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-stdlib=libc++>)
     target_link_options(stdcxx PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-stdlib=libc++>)
     
-    if(CLANG_VERSION_MAJOR GREATER 16)
+    if(CMAKE_CXX_COMPILER_VERSION GREATER 16)
+        # Misnomer warning on module partitions
         target_compile_options(stdcxx PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-Wno-read-modules-implicitly>)
     endif()
 endif()

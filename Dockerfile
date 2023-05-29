@@ -6,15 +6,15 @@ RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.
 RUN add-apt-repository -y 'deb http://apt.llvm.org/unstable/  llvm-toolchain main'
 RUN add-apt-repository -y 'deb http://apt.llvm.org/unstable/  llvm-toolchain main'
 RUN apt update && apt install -y clang-17 clang-tools-17 libc++-17-dev libc++abi-17-dev
-
-# CMake 3.26
-RUN apt install wget && wget https://github.com/Kitware/CMake/releases/download/v3.26.4/cmake-3.26.4-linux-x86_64.sh
-RUN bash ./cmake-3.26.4-linux-x86_64.sh --prefix=/usr/local --exclude-subdir --skip-license
 # replace broken symlinks
 # /usr/lib/clang/17/include -> ../../llvm-17/lib/clang/17.0.0/include
 # /usr/lib/clang/17/lib -> ../../llvm-17/lib/clang/17.0.0/lib
 RUN cd /usr/lib/clang/17 && ln -s ../../llvm-17/lib/clang/17/include include --force
 RUN cd /usr/lib/clang/17 && ln -s ../../llvm-17/lib/clang/17/lib lib --force
+
+# CMake 3.26
+RUN apt install wget && wget https://github.com/Kitware/CMake/releases/download/v3.26.4/cmake-3.26.4-linux-x86_64.sh
+RUN bash ./cmake-3.26.4-linux-x86_64.sh --prefix=/usr/local --exclude-subdir --skip-license
 
 # Extra Packages
 RUN apt update && apt install -y python3-pip ninja-build pipx
@@ -35,4 +35,4 @@ COPY . /cmake-cpp-modules-template
 RUN cmake -B build/clang -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER=/usr/bin/clang++-17 -DCONAN_COMPILER=clang -DCONAN_COMPILER_VERSION=17
 RUN cmake --build build/clang --config Release -j8
 
-CMD ./build/clang/foobar/tests/Release/foobar_tests
+CMD ctest --test-dir build/clang -C Release --output-on-failure
