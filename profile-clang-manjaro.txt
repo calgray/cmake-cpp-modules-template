@@ -5,6 +5,7 @@ build_type=Release
 compiler=clang
 compiler.libcxx=libc++
 compiler.version=16
+cppstd=20
 os=Linux
 os_build=Linux
 
