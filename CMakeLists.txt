@@ -1,36 +1,61 @@
 cmake_minimum_required(VERSION 3.26)
-project(std_module_example CXX)
 
-# C++ Modules
-# CMake 3.25
-#set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "3c375311-a3c9-4396-a187-3227ef642046")
-# CMake 3.26
-set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "2182bf5c-ef0d-489a-91da-49dbc3090d2a")
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16.0)
-    message(FATAL_ERROR "Only Clang 16.0.0 and greater supported for modules")
-  endif()
-  include(cmake/clang_modules.cmake)
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  include(cmake/gcc_modules.cmake)
-endif()
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Conan
-get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-if(isMultiConfig)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake) # Include Conan-generated file
+# std module; check specific cmake releases at
+# https://github.com/Kitware/CMake/blob/v4.3.2/Help/dev/experimental.rst#c-import-std-support
+message("cmake: ${CMAKE_VERSION}")
+if (CMAKE_VERSION VERSION_LESS "4.0.3")
+  set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "a9e1cf81-9932-4810-974b-6eccaf14e457")
+elseif (CMAKE_VERSION VERSION_LESS "4.3.0")
+  set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
 else()
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake) # Include Conan-generated file
+  set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "451f2fe2-a8a2-47c3-bc32-94786d8fc91b")
 endif()
-conan_basic_setup(TARGETS) # Introduce Conan-generated targets
 
-add_subdirectory(stdcxx)
-add_subdirectory(stdhu)
-add_subdirectory(fmt)
-add_subdirectory(ut)
-add_subdirectory(foobar)
-add_subdirectory(helloworld)
+# Project + Language
+project(cmake_cpp_modules_template C CXX)
+
+# automatic for CXX_MODULES file sets
+# set(CMAKE_CXX_SCAN_FOR_MODULES ON)
+
+# MSVC and Clang have good C++23 stdlib module support
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  # Disable linking to compiler included std library module
+  # will instead link std to libcxx wrapper
+  set(CMAKE_CXX_MODULE_STD OFF)
+else()
+  set(CMAKE_CXX_MODULE_STD ON)
+endif()
+
+# Options
+option(ENABLE_EIGEN      "Add Eigen support?" ON)
+option(ENABLE_CUDA      "Add Cuda support?" OFF)
+option(BUILD_TESTING    "Enable Testing?" ON)
+
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16.0)
+  message(FATAL_ERROR "Only Clang 16.0.0 and greater supported for modules")
+endif()
+include(cmake/cpp_modules.cmake)
+
+# Ninja has a bug where color terminal isnt detected when piping
+if (CMAKE_GENERATOR STREQUAL "Ninja Multi-Config")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+endif()
+
+if(ENABLE_CUDA)
+  # NOTE: put these in a toolchain
+  # set(CMAKE_CUDA_HOST_COMPILER clang)
+  # set(CMAKE_CUDA_ARCHITECTURES 86 CACHE STRING "CUDA architectures")
+  # set(CMAKE_CUDA_STANDARD 20 CACHE STRING "CUDA standard")
+  # set(CMAKE_CUDA_STANDARD $ENV{CMAKE_CUDA_STANDARD})
+  # set(CMAKE_CUDA_ARCHITECTURES $ENV{CMAKE_CUDA_ARCHITECTURES})
+  enable_language(CXX CUDA)
+else()
+  enable_language(CXX)
+endif()
+
+if(BUILD_TESTING)
+  enable_testing()
+endif()
+
+add_subdirectory(targets)

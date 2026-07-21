@@ -1,0 +1,26 @@
+FROM debian:forky
+
+# CMake
+RUN apt update
+RUN apt install -y g++
+RUN apt install -y git cmake ninja-build pipx
+
+# Conan
+RUN pipx install --global conan==2.29.0
+RUN conan profile detect
+
+# Cache Conan packages
+WORKDIR project
+COPY conanfile.txt profile-gcc-docker.txt /project
+RUN conan install -of build/gcc -s build_type=Release -b=missing -pr=profile-gcc-docker.txt .
+
+# Build Project
+COPY . /project
+# generate build/gcc/CMakePresets.json
+RUN conan install -of build/gcc -s build_type=Release -b=missing -pr=profile-gcc-docker.txt .
+
+RUN cmake -B build/gcc --preset=conan-gcc-x86_64
+RUN cmake --build build/gcc --config Release -j8
+
+# Test
+# CMD ctest -C Release -T test --test-dir build/gcc --no-compress-output --verbose

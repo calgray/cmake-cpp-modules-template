@@ -1,0 +1,17 @@
+[settings]
+arch=x86_64
+compiler=clang
+compiler.libcxx=libc++
+compiler.version=22
+compiler.cppstd=23
+os=Linux
+
+[buildenv]
+CC=/usr/bin/clang-22
+CXX=/usr/bin/clang++-22
+
+[conf]
+tools.cmake.cmaketoolchain:generator=Ninja Multi-Config
+tools.cmake.cmake_layout:build_folder_vars=['settings.compiler', 'settings.arch']
+tools.cmake.cmaketoolchain:extra_variables={"CMAKE_CXX_STDLIB_MODULES_JSON": "/usr/lib/llvm-22/lib/libc++.modules.json"}
+tools.build:compiler_executables={"c": "/usr/bin/clang-22", "cpp": "/usr/bin/clang++-22", "cuda": "/usr/bin/clang++-22"}
