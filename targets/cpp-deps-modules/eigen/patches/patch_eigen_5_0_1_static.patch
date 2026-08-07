@@ -1,0 +1,272 @@
+--- include/eigen3/Eigen/src/SparseCore/SparseSparseProductWithPruning.h   2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/SparseCore/SparseSparseProductWithPruning.h   2026-06-08 18:59:14.915193253 +0800
+@@ -22,5 +22,5 @@
+ // perform a pseudo in-place sparse * sparse product assuming all matrices are col major
+ template <typename Lhs, typename Rhs, typename ResultType>
+-static void sparse_sparse_product_with_pruning_impl(const Lhs& lhs, const Rhs& rhs, ResultType& res,
++void sparse_sparse_product_with_pruning_impl(const Lhs& lhs, const Rhs& rhs, ResultType& res,
+                                                     const typename ResultType::RealScalar& tolerance) {
+   // return sparse_sparse_product_with_pruning_impl2(lhs,rhs,res);
+
+--- include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h   2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h   2026-06-08 18:59:14.915193253 +0800
+@@ -21,7 +21,7 @@
+ namespace internal {
+ 
+ template <typename Lhs, typename Rhs, typename ResultType>
+-static void conservative_sparse_sparse_product_impl(const Lhs& lhs, const Rhs& rhs, ResultType& res,
++void conservative_sparse_sparse_product_impl(const Lhs& lhs, const Rhs& rhs, ResultType& res,
+                                                     bool sortedInsertion = false) {
+   typedef typename remove_all_t<Lhs>::Scalar LhsScalar;
+   typedef typename remove_all_t<Rhs>::Scalar RhsScalar;
+
+--- include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h   2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h   2026-06-08 18:59:14.915193253 +0800
+@@ -240,7 +240,7 @@
+ namespace internal {
+ 
+ template <typename Lhs, typename Rhs, typename ResultType>
+-static void sparse_sparse_to_dense_product_impl(const Lhs& lhs, const Rhs& rhs, ResultType& res) {
++void sparse_sparse_to_dense_product_impl(const Lhs& lhs, const Rhs& rhs, ResultType& res) {
+   typedef typename remove_all_t<Lhs>::Scalar LhsScalar;
+   typedef typename remove_all_t<Rhs>::Scalar RhsScalar;
+   Index cols = rhs.outerSize();
+
+--- include/eigen3/Eigen/src/Cholesky/LLT.h   2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/Cholesky/LLT.h   2026-06-08 18:59:14.915193253 +0800
+@@ -217,7 +217,7 @@
+ struct llt_inplace;
+ 
+ template <typename MatrixType, typename VectorType>
+-static Index llt_rank_update_lower(MatrixType& mat, const VectorType& vec,
++inline constexpr Index llt_rank_update_lower(MatrixType& mat, const VectorType& vec,
+                                    const typename MatrixType::RealScalar& sigma) {
+   using std::sqrt;
+   typedef typename MatrixType::Scalar Scalar;
+
+--- include/eigen3/Eigen/src/Core/DenseCoeffsBase.h   2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/Core/DenseCoeffsBase.h   2026-06-08 18:59:14.915193253 +0800
+@@ -529,13 +529,13 @@
+  * documentation.
+  */
+ template <int Alignment, typename Derived>
+-static inline Index first_aligned(const DenseBase<Derived>& m) {
++inline constexpr Index first_aligned(const DenseBase<Derived>& m) {
+   enum { ReturnZero = (int(evaluator<Derived>::Alignment) >= Alignment) || !(Derived::Flags & DirectAccessBit) };
+   return first_aligned_impl<Alignment, Derived, ReturnZero>::run(m.derived());
+ }
+ 
+ template <typename Derived>
+-static inline Index first_default_aligned(const DenseBase<Derived>& m) {
++inline constexpr Index first_default_aligned(const DenseBase<Derived>& m) {
+   typedef typename Derived::Scalar Scalar;
+   typedef typename packet_traits<Scalar>::type DefaultPacketType;
+   return internal::first_aligned<int(unpacket_traits<DefaultPacketType>::alignment), Derived>(m);
+
+--- include/eigen3/Eigen/src/Core/MathFunctions.h   2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/Core/MathFunctions.h   2026-06-08 18:59:14.915193253 +0800
+@@ -1495,14 +1495,14 @@
+ struct signbit_impl<Scalar, true, true> {
+   static constexpr size_t Size = sizeof(Scalar);
+   static constexpr size_t Shift = (CHAR_BIT * Size) - 1;
+-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static constexpr Scalar run(const Scalar& x) { return x >> Shift; }
++  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE constexpr Scalar run(const Scalar& x) { return x >> Shift; }
+ };
+ template <typename Scalar>
+ struct signbit_impl<Scalar, true, false> {
+-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static constexpr Scalar run(const Scalar&) { return Scalar(0); }
++  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE constexpr Scalar run(const Scalar&) { return Scalar(0); }
+ };
+ template <typename Scalar>
+-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static constexpr Scalar signbit(const Scalar& x) {
++EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE constexpr Scalar signbit(const Scalar& x) {
+   return signbit_impl<Scalar>::run(x);
+ }
+
+--- include/eigen3/Eigen/src/Core/util/Constants.h  2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/Core/util/Constants.h  2026-06-08 18:59:14.915193253 +0800
+@@ -22,21 +22,21 @@
+  *
+  * Changing the value of Dynamic breaks the ABI, as Dynamic is often used as a template parameter for Matrix.
+  */
+-const int Dynamic = -1;
++inline constexpr int Dynamic = -1;
+ 
+ /** This value means that a signed quantity (e.g., a signed index) is not known at compile-time, and that instead its
+  * value has to be specified at runtime.
+  */
+-const int DynamicIndex = 0xffffff;
++inline constexpr int DynamicIndex = 0xffffff;
+ 
+ /** This value means that the requested value is not defined.
+  */
+-const int Undefined = 0xfffffe;
++inline constexpr int Undefined = 0xfffffe;
+ 
+ /** This value means +Infinity; it is currently used only as the p parameter to MatrixBase::lpNorm<int>().
+  * The value Infinity there means the L-infinity norm.
+  */
+-const int Infinity = -1;
++inline constexpr int Infinity = -1;
+ 
+ /** This value means that the cost to evaluate an expression coefficient is either very expensive or
+  * cannot be known at compile time.
+@@ -45,7 +45,7 @@
+  * and very very expensive expressions. It thus must also be large enough to make sure unrolling won't happen and that
+  * sub expressions will be evaluated, but not too large to avoid overflow.
+  */
+-const int HugeCost = 10000;
++inline constexpr int HugeCost = 10000;
+ 
+ /** \defgroup flags Flags
+  * \ingroup Core_Module
+@@ -67,16 +67,16 @@
+  * For an expression, this determines the storage order of
+  * the matrix created by evaluation of that expression.
+  * \sa \blank  \ref TopicStorageOrders */
+-const unsigned int RowMajorBit = 0x1;
++inline constexpr unsigned int RowMajorBit = 0x1;
+ 
+ /** \ingroup flags
+  * means the expression should be evaluated by the calling expression */
+-const unsigned int EvalBeforeNestingBit = 0x2;
++inline constexpr unsigned int EvalBeforeNestingBit = 0x2;
+ 
+ /** \ingroup flags
+  * \deprecated
+  * means the expression should be evaluated before any assignment */
+-EIGEN_DEPRECATED const unsigned int EvalBeforeAssigningBit = 0x4;  // FIXME deprecated
++EIGEN_DEPRECATED inline constexpr unsigned int EvalBeforeAssigningBit = 0x4;  // FIXME deprecated
+ 
+ /** \ingroup flags
+  *
+@@ -94,7 +94,7 @@
+  * \note This bit can be set regardless of whether vectorization is actually enabled.
+  *       To check for actual vectorizability, see \a ActualPacketAccessBit.
+  */
+-const unsigned int PacketAccessBit = 0x8;
++inline constexpr unsigned int PacketAccessBit = 0x8;
+ 
+ #ifdef EIGEN_VECTORIZE
+ /** \ingroup flags
+@@ -105,9 +105,9 @@
+  * If vectorization is not enabled (EIGEN_VECTORIZE is not defined) this constant
+  * is set to the value 0.
+  */
+-const unsigned int ActualPacketAccessBit = PacketAccessBit;
++inline constexpr unsigned int ActualPacketAccessBit = PacketAccessBit;
+ #else
+-const unsigned int ActualPacketAccessBit = 0x0;
++inline constexpr unsigned int ActualPacketAccessBit = 0x0;
+ #endif
+ 
+ /** \ingroup flags
+@@ -130,7 +130,7 @@
+  * Product is a vector expression. Thus, vector Product expressions allow index-based coefficient access but
+  * not index-based packet access, so they don't have the LinearAccessBit.
+  */
+-const unsigned int LinearAccessBit = 0x10;
++inline constexpr unsigned int LinearAccessBit = 0x10;
+ 
+ /** \ingroup flags
+  *
+@@ -145,7 +145,7 @@
+  * Expressions having LvalueBit also have their coeff() method returning a const reference instead of returning a new
+  * value.
+  */
+-const unsigned int LvalueBit = 0x20;
++inline constexpr unsigned int LvalueBit = 0x20;
+ 
+ /** \ingroup flags
+  *
+@@ -156,7 +156,7 @@
+  *
+  * See the comment on LvalueBit for an explanation of how LvalueBit and DirectAccessBit are mutually orthogonal.
+  */
+-const unsigned int DirectAccessBit = 0x40;
++inline constexpr unsigned int DirectAccessBit = 0x40;
+ 
+ /** \deprecated \ingroup flags
+  *
+@@ -168,9 +168,9 @@
+  * expression.packet<Aligned>(0);
+  * \endcode
+  */
+-EIGEN_DEPRECATED const unsigned int AlignedBit = 0x80;
++EIGEN_DEPRECATED inline constexpr unsigned int AlignedBit = 0x80;
+ 
+-const unsigned int NestByRefBit = 0x100;
++inline constexpr unsigned int NestByRefBit = 0x100;
+ 
+ /** \ingroup flags
+  *
+@@ -179,7 +179,7 @@
+  * The precise choice will be decided at evaluation time or when
+  * combined with other expressions.
+  * \sa \blank  \ref RowMajorBit, \ref TopicStorageOrders */
+-const unsigned int NoPreferredStorageOrderBit = 0x200;
++inline constexpr unsigned int NoPreferredStorageOrderBit = 0x200;
+ 
+ /** \ingroup flags
+   *
+@@ -192,10 +192,10 @@
+     inline const Index* innerNonZeroPtr() const;
+     \endcode
+   */
+-const unsigned int CompressedAccessBit = 0x400;
++inline constexpr unsigned int CompressedAccessBit = 0x400;
+ 
+ // list of flags that are inherited by default
+-const unsigned int HereditaryBits = RowMajorBit | EvalBeforeNestingBit;
++inline constexpr unsigned int HereditaryBits = RowMajorBit | EvalBeforeNestingBit;
+ 
+ /** \defgroup enums Enumerations
+  * \ingroup Core_Module
+
+--- include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h  2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h  2026-06-08 18:59:14.915193253 +0800
+@@ -45,7 +45,7 @@
+  *
+  * \sa end
+  */
+-static constexpr const last_t last;
++inline constexpr const last_t last;
+ 
+ typedef symbolic::AddExpr<symbolic::SymbolExpr<internal::symbolic_last_tag>,
+                           symbolic::ValueExpr<Eigen::internal::FixedInt<1>>>
+
+--- include/eigen3/Eigen/src/Core/util/ReshapedHelper.h     2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/Core/util/ReshapedHelper.h     2026-06-08 18:59:14.915193253 +0800
+@@ -16,7 +16,7 @@
+ namespace Eigen {
+ 
+ enum AutoSize_t { AutoSize };
+-const int AutoOrder = 2;
++inline constexpr int AutoOrder = 2;
+ 
+ namespace internal {
+ 
+--- include/eigen3/Eigen/src/Geometry/RotationBase.h        2026-05-10 18:12:41.395452157 +0800
++++ include/eigen3/Eigen/src/Geometry/RotationBase.h        2026-06-08 18:59:14.915193253 +0800
+@@ -185,18 +185,18 @@
+  * \sa class Transform, class Rotation2D, class Quaternion, class AngleAxis
+  */
+ template <typename Scalar, int Dim>
+-EIGEN_DEVICE_FUNC static inline Matrix<Scalar, 2, 2> toRotationMatrix(const Scalar& s) {
++EIGEN_DEVICE_FUNC inline constexpr Matrix<Scalar, 2, 2> toRotationMatrix(const Scalar& s) {
+   EIGEN_STATIC_ASSERT(Dim == 2, YOU_MADE_A_PROGRAMMING_MISTAKE)
+   return Rotation2D<Scalar>(s).toRotationMatrix();
+ }
+ 
+ template <typename Scalar, int Dim, typename OtherDerived>
+-EIGEN_DEVICE_FUNC static inline Matrix<Scalar, Dim, Dim> toRotationMatrix(const RotationBase<OtherDerived, Dim>& r) {
++EIGEN_DEVICE_FUNC inline constexpr Matrix<Scalar, Dim, Dim> toRotationMatrix(const RotationBase<OtherDerived, Dim>& r) {
+   return r.toRotationMatrix();
+ }
+ 
+ template <typename Scalar, int Dim, typename OtherDerived>
+-EIGEN_DEVICE_FUNC static inline const MatrixBase<OtherDerived>& toRotationMatrix(const MatrixBase<OtherDerived>& mat) {
++EIGEN_DEVICE_FUNC inline constexpr const MatrixBase<OtherDerived>& toRotationMatrix(const MatrixBase<OtherDerived>& mat) {
+   EIGEN_STATIC_ASSERT(OtherDerived::RowsAtCompileTime == Dim && OtherDerived::ColsAtCompileTime == Dim,
+                       YOU_MADE_A_PROGRAMMING_MISTAKE)
+   return mat;

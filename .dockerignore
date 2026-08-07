@@ -1,2 +1,15 @@
+CMakeUserPresets.json
 build/
-Dockerfile*
+docs/build/*
+
+.vscode
+.cmake
+PrivateRules.mak
+*.gpg.key
+
+Testing/
+profile*
+!profile-clang-template.txt
+!profile-clang-docker.txt
+!profile-gcc-template.txt
+!profile-gcc-docker.txt

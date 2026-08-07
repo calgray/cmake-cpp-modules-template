@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.26)
+
+set(NANOBENCH_LOCATION "CONAN")
+if(NANOBENCH_LOCATION STREQUAL "SUBMODULE")
+  set(nonobench_DIR "${PROJECT_SOURCE_DIR}/resources/CLI11")
+  find_package(CLI11 REQUIRED)
+else()
+  find_package(CLI11 CONFIG REQUIRED)
+endif()
+
+set(TARGET_NAME cli11-modules)
+add_library(${TARGET_NAME})
+
+# set_property(TARGET ${TARGET_NAME} PROPERTY CXX_MODULE_STD ON)
+target_link_libraries(${TARGET_NAME} PUBLIC CLI11::CLI11)
+
+FILE(GLOB_RECURSE SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cppm)
+target_sources(${TARGET_NAME} PUBLIC
+  FILE_SET CXX_MODULES
+  BASE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}
+  FILES
+    ${SRCS}
+)

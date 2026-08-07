@@ -1,0 +1,11 @@
+--- include/unifex/with_scheduler_affinity.hpp    2023-10-21 06:43:21.000000000 +0800
++++ include/unifex/with_scheduler_affinity.hpp    2026-05-18 22:27:11.449498459 +0800
+@@ -35,7 +35,7 @@
+ };
+ 
+ template <typename Sender, typename Scheduler>
+-static auto
++auto
+ _make_sender(Sender&& sender, Scheduler&& scheduler) noexcept(noexcept(finally(
+     static_cast<Sender&&>(sender),
+     unstoppable(schedule(static_cast<Scheduler&&>(scheduler)))))) {
