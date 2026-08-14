@@ -10,8 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ${{ matrix.runner }}
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
@@ -23,25 +22,28 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        runner: [ubuntu-26.04, windows-2025-vs2026]
         build_type: [Release]
         c_compiler: [gcc, clang, cl]
         include:
-          - os: windows-latest
+          - runner: windows-2025-vs2026
+            os: Windows
             c_compiler: cl
             cpp_compiler: cl
-          - os: ubuntu-latest
+          - runner: ubuntu-26.04
+            os: Linux
             c_compiler: gcc
             cpp_compiler: g++
-          - os: ubuntu-latest
+          - runner: ubuntu-26.04
+            os: Linux
             c_compiler: clang
             cpp_compiler: clang++
         exclude:
-          - os: windows-latest
+          - os: Windows
             c_compiler: gcc
-          - os: windows-latest
+          - os: Windows
             c_compiler: clang
-          - os: ubuntu-latest
+          - os: Linux
             c_compiler: cl
 
     steps:
@@ -54,11 +56,47 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - name: Create Conan Dependencies Profile
+      run: |
+        if [[ "${{ matrix.c_compiler }}" == "clang" ]]; then
+          libcxx="compiler.libcxx=libc++11"
+        else
+          libcxx="compiler.libcxx=libstdc++11"
+        fi
+
+        cat << EOF > profile.txt
+        [settings]
+        arch=x86_64
+        os=${{ matrix.os }}
+        compiler=${{ matrix.c_compiler }}
+        compiler.version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
+        compiler.cppstd=23
+        $([[ "${{ matrix.c_compiler }}" == "clang" ]] && echo "compiler.libcxx=libstdc++11")
+
+        [buildenv]
+        CC=${{ matrix.c_compiler }}
+        CXX=${{ matrix.cpp_compiler }}
+
+        [conf]
+        tools.cmake.cmaketoolchain:generator=Ninja Multi-Config
+        tools.cmake.cmake_layout:build_folder_vars=['settings.compiler', 'settings.arch']
+        EOF
+
+    - name: Configure Conan Dependencies
+      run: >
+        conan install
+        -of ${{ steps.strings.outputs.build-output-dir }}
+        -s build_type=${{ matrix.build_type }}
+        -b=missing
+        -pr=profile.txt
+        ${{ github.workspace }}
+
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        --preset=conan-${{ matrix.c_compiler }}-x86_64
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
@@ -72,4 +110,4 @@ jobs:
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest --build-config ${{ matrix.build_type }}
+      run: ctest --preset=conan-${{ matrix.c_compiler }}-x86_64-release

@@ -99,7 +99,7 @@ cmake -B build/clang --preset=conan-clang-x86_64
 # build
 cmake --build build/clang --config Release -j8
 # test
-ctest -C Release --test-dir build/clang --no-compress-output --verbose
+ctest -preset=${CONAN_PROFILE} --no-compress-output --verbose
 ```
 
 ### GNU
@@ -115,7 +115,7 @@ cmake -B build/gcc --preset=conan-gcc-x86_64
 # build
 cmake --build build/gcc --config Release -j8
 # test
-ctest -C Release --test-dir build/gcc --no-compress-output --verbose
+ctest -preset=${CONAN_PROFILE} --no-compress-output --verbose
 ```
 
 ## Dockerfile
