@@ -80,6 +80,11 @@ jobs:
         tools.cmake.cmake_layout:build_folder_vars=['settings.compiler', 'settings.arch']
         EOF
 
+    - name: Install Conan
+      run: |
+        pipx install --global conan==2.29.0
+        conan profile detect
+
     - name: Configure Conan Dependencies
       run: >
         conan install
