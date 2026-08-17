@@ -56,12 +56,6 @@ jobs:
 
     - name: Create Conan Dependencies Profile
       run: |
-        if [[ "${{ matrix.c_compiler }}" == "clang" ]]; then
-          libcxx="compiler.libcxx=libc++11"
-        else
-          libcxx="compiler.libcxx=libstdc++11"
-        fi
-
         cat << EOF > profile.txt
         [settings]
         arch=x86_64
@@ -69,7 +63,7 @@ jobs:
         compiler=${{ matrix.c_compiler }}
         compiler.version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
         compiler.cppstd=23
-        $([[ "${{ matrix.c_compiler }}" == "clang" ]] && echo "compiler.libcxx=libstdc++11")
+        $([[ "${{ matrix.c_compiler }}" == "gcc" ]] && echo "compiler.libcxx=libstdc++11" || echo "compiler.libcxx=libc++11")
 
         [buildenv]
         CC=${{ matrix.c_compiler }}
