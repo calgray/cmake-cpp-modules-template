@@ -31,19 +31,17 @@ jobs:
             c_compiler: cl
             cpp_compiler: cl
           - runner: ubuntu-26.04
-            os: Linux
             c_compiler: gcc
             cpp_compiler: g++
           - runner: ubuntu-26.04
-            os: Linux
             c_compiler: clang
             cpp_compiler: clang++
         exclude:
-          - os: Windows
+          - runner: windows-2025-vs2026
             c_compiler: gcc
-          - os: Windows
+          - runner: windows-2025-vs2026
             c_compiler: clang
-          - os: Linux
+          - runner: ubuntu-26.04
             c_compiler: cl
 
     steps:
@@ -67,7 +65,7 @@ jobs:
         cat << EOF > profile.txt
         [settings]
         arch=x86_64
-        os=${{ matrix.os }}
+        os=$RUNNER_OS
         compiler=${{ matrix.c_compiler }}
         compiler.version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
         compiler.cppstd=23
