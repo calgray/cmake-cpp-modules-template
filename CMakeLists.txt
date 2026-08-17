@@ -25,7 +25,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   # will instead link std to libcxx wrapper
   set(CMAKE_CXX_MODULE_STD OFF)
 else()
-  set(CMAKE_CXX_MODULE_STD ON)
+  set(CMAKE_CXX_MODULE_STD OFF)
 endif()
 
 # Options

@@ -1,21 +1,21 @@
-name: Docker Image CI
+# name: Docker Image CI
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
 
-jobs:
-  build-gnu:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v5
-    - name: Build the GNU Docker image
-      run: docker build . --file docker/Dockerfile-gcc --tag cmake-cpp-modules-template-gcc:$(date +%s)
-  build-clang:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v5
-    - name: Build the Clang Docker image
-      run: docker build . --file docker/Dockerfile-clang --tag cmake-cpp-modules-template-clang:$(date +%s)
+# jobs:
+#   build-gnu:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v5
+#     - name: Build the GNU Docker image
+#       run: docker build . --file docker/Dockerfile-gcc --tag cmake-cpp-modules-template-gcc:$(date +%s)
+#   build-clang:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v5
+#     - name: Build the Clang Docker image
+#       run: docker build . --file docker/Dockerfile-clang --tag cmake-cpp-modules-template-clang:$(date +%s)

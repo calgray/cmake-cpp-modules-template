@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
-name: CMake on multiple platforms
+name: Multiplatform Build
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       matrix:
         runner: [ubuntu-26.04, windows-2025-vs2026]
         build_type: [Release]
-        c_compiler: [gcc, clang, cl]
+        c_compiler: [gcc, clang-22, cl]
         include:
           - runner: windows-2025-vs2026
             os: Windows
@@ -34,18 +34,24 @@ jobs:
             c_compiler: gcc
             cpp_compiler: g++
           - runner: ubuntu-26.04
-            c_compiler: clang
-            cpp_compiler: clang++
+            c_compiler: clang-22
+            cpp_compiler: clang++-22
         exclude:
           - runner: windows-2025-vs2026
             c_compiler: gcc
           - runner: windows-2025-vs2026
-            c_compiler: clang
+            c_compiler: clang-22
           - runner: ubuntu-26.04
             c_compiler: cl
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install libc++ for Clang
+      if: matrix.c_compiler == 'clang-22'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-22 clang-tools-22 libc++-22-dev libc++abi-22-dev
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -54,16 +60,43 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+        case "${{ matrix.c_compiler }}" in
+          gcc*)
+            conan_compiler=gcc
+            ;;
+          clang*)
+            conan_compiler=clang
+            ;;
+          cl)
+            conan_compiler=msvc
+            ;;
+        esac
+        echo "conan_compiler=$conan_compiler" >> "$GITHUB_OUTPUT"
+
+        case "${{ matrix.c_compiler }}" in
+          gcc*)
+            conan_compiler_version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
+            ;;
+          clang*)
+            conan_compiler_version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
+            ;;
+          cl)
+            conan_compiler_version=18
+            ;;
+        esac
+        echo "conan_compiler_version=$conan_compiler_version" >> "$GITHUB_OUTPUT"
+
     - name: Create Conan Dependencies Profile
+      shell: bash
       run: |
         cat << EOF > profile.txt
         [settings]
         arch=x86_64
         os=$RUNNER_OS
-        compiler=${{ matrix.c_compiler }}
-        compiler.version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
+        compiler=${{ steps.strings.outputs.conan_compiler }}
+        compiler.version=${{ steps.strings.outputs.conan_compiler_version }}
         compiler.cppstd=23
-        $([[ "${{ matrix.c_compiler }}" == "gcc" ]] && echo "compiler.libcxx=libstdc++11" || echo "compiler.libcxx=libc++11")
+        $([[ "${{ matrix.c_compiler }}" == "gcc" ]] && echo "compiler.libcxx=libstdc++11" || echo "compiler.libcxx=libc++")
 
         [buildenv]
         CC=${{ matrix.c_compiler }}
@@ -75,36 +108,40 @@ jobs:
         EOF
 
     - name: Install Conan
+      shell: bash
       run: |
-        pipx install --global conan==2.29.0
+        pip install conan==2.29.0
         conan profile detect
 
     - name: Configure Conan Dependencies
+      shell: bash
       run: >
         conan install
-        -of ${{ steps.strings.outputs.build-output-dir }}
+        -of build
         -s build_type=${{ matrix.build_type }}
         -b=missing
-        -pr=profile.txt
-        ${{ github.workspace }}
+        -pr:a=profile.txt
+        .
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      shell: bash
       run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        --preset=conan-${{ matrix.c_compiler }}-x86_64
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}
+        cmake
+        -B build
+        --preset=conan-${{ steps.strings.outputs.conan_compiler }}-x86_64
+        .
 
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      run: >
+        cmake
+        --build ${{ steps.strings.outputs.build-output-dir }}
+        --config ${{ matrix.build_type }}
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest --preset=conan-${{ matrix.c_compiler }}-x86_64-release
+      run: ctest --preset=conan-${{ steps.strings.outputs.conan_compiler }}-x86_64-release
