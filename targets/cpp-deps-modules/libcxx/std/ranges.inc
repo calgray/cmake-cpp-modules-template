@@ -351,7 +351,7 @@ export namespace std {
     }
 #endif
 
-#if _LIBCPP_STD_VER >= 23
+#if _LIBCPP_STD_VER >= 26
     // [range.chunk.by], chunk by view
     using std::ranges::chunk_by_view;
 

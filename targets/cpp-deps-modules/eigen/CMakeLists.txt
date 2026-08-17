@@ -18,20 +18,6 @@ target_sources(eigen-modules PUBLIC
 # cppm is non-standard by gcc
 set_source_files_properties(${SRCS} PROPERTIES LANGUAGE CXX)
 
-
-# PATCHES
-# conan list "eigen/5.0.1:*" -fp=profile-clang-manjaro.txt
-# patch -f -d $(conan cache path eigen/5.0.1:da39a3ee5e6b4b0d3255bfef95601890afd80709) -p0 < patches/patch_eigen_5_0_1_static.patch
-
-# set(CONAN_REF "eigen/5.0.1:da39a3ee5e6b4b0d3255bfef95601890afd80709")
-
-# execute_process(
-#     COMMAND conan cache path ${CONAN_REF}
-#     OUTPUT_VARIABLE EIGEN_CACHE_PATH
-#     OUTPUT_STRIP_TRAILING_WHITESPACE
-#     COMMAND_ERROR_IS_FATAL ANY
-# )
-
 # HEADER PATCHES
 set(EIGEN_PATCH
     ${CMAKE_CURRENT_SOURCE_DIR}/patches/patch_eigen_5_0_1_static.patch

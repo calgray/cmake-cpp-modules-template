@@ -110,7 +110,7 @@ jobs:
     - name: Install Conan
       shell: bash
       run: |
-        pip install conan==2.29.0
+        pip install conan==2.31.2
         conan profile detect
 
     - name: Configure Conan Dependencies
