@@ -24,21 +24,21 @@ jobs:
       matrix:
         runner: [ubuntu-26.04, windows-2025-vs2026]
         build_type: [Release]
-        c_compiler: [gcc, clang-22, cl]
+        c_compiler: [gcc-15, clang-22, cl]
         include:
           - runner: windows-2025-vs2026
             os: Windows
             c_compiler: cl
             cpp_compiler: cl
           - runner: ubuntu-26.04
-            c_compiler: gcc
-            cpp_compiler: g++
+            c_compiler: gcc-15
+            cpp_compiler: g++-15
           - runner: ubuntu-26.04
             c_compiler: clang-22
             cpp_compiler: clang++-22
         exclude:
           - runner: windows-2025-vs2026
-            c_compiler: gcc
+            c_compiler: gcc-15
           - runner: windows-2025-vs2026
             c_compiler: clang-22
           - runner: ubuntu-26.04
@@ -81,7 +81,7 @@ jobs:
             conan_compiler_version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
             ;;
           cl)
-            conan_compiler_version=18
+            conan_compiler_version=195
             ;;
         esac
         echo "conan_compiler_version=$conan_compiler_version" >> "$GITHUB_OUTPUT"
@@ -96,7 +96,9 @@ jobs:
         compiler=${{ steps.strings.outputs.conan_compiler }}
         compiler.version=${{ steps.strings.outputs.conan_compiler_version }}
         compiler.cppstd=23
-        $([[ "${{ matrix.c_compiler }}" == "gcc" ]] && echo "compiler.libcxx=libstdc++11" || echo "compiler.libcxx=libc++")
+        $([[ "${{ steps.strings.outputs.conan_compiler }}" == "gcc" ]] && echo "compiler.libcxx=libstdc++11")
+        $([[ "${{ steps.strings.outputs.conan_compiler }}" == "clang" ]] && echo "compiler.libcxx=libc++")
+        $([[ "${{ steps.strings.outputs.conan_compiler }}" == "msvc" ]] && echo "compiler.runtime=static")
 
         [buildenv]
         CC=${{ matrix.c_compiler }}
