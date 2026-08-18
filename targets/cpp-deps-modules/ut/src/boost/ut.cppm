@@ -5,11 +5,15 @@ module;
 #include <unistd.h>
 #endif
 
+#if defined(_MSC_VER)
+#include <stdlib.h>
+#endif
+
 export module boost.ut;
 export import std;
 
 #define BOOST_UT_CXX_MODULES 1
-#include "custom_ut.hpp"
+#include "./ut.hpp"
 
 template class boost::ut::reporter_junit<boost::ut::printer>;
 template void boost::ut::reporter_junit<boost::ut::printer>::on<bool>(boost::ut::events::log<bool>);
