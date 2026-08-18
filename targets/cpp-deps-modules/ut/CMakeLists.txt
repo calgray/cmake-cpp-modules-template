@@ -8,7 +8,7 @@ add_library(${TARGET_NAME})
 
 # set_property(TARGET ${TARGET_NAME} PROPERTY CXX_MODULE_STD ON)
 target_link_libraries(${TARGET_NAME} PRIVATE libcxx)
-target_link_libraries(${TARGET_NAME} PUBLIC Boost::ut)
+# target_link_libraries(${TARGET_NAME} PUBLIC Boost::ut)
 
 # target_include_directories(${TARGET_NAME} PRIVATE src)
 # target_include_directories(${TARGET_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/resources/ut/include)
