@@ -29,7 +29,7 @@ else()
 endif()
 
 # Options
-option(ENABLE_EIGEN      "Add Eigen support?" ON)
+option(ENABLE_EIGEN      "Add Eigen support?" OFF)
 option(ENABLE_CUDA      "Add Cuda support?" OFF)
 option(BUILD_TESTING    "Enable Testing?" ON)
 
@@ -41,7 +41,9 @@ include(cmake/cpp_modules.cmake)
 
 # Ninja has a bug where color terminal isnt detected when piping
 if (CMAKE_GENERATOR STREQUAL "Ninja Multi-Config")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+  endif()
 endif()
 
 if(ENABLE_CUDA)
