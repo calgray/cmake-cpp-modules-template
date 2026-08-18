@@ -94,6 +94,6 @@ ut::suite<"unifex"> unifex_suite = [] {
                 ex::sync_wait(std::move(all));
             });
         }
-    };
 #endif // __linux__
+    };
 };

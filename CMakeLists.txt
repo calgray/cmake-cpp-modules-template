@@ -24,8 +24,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   # Disable linking to compiler included std library module
   # will instead link std to libcxx wrapper
   set(CMAKE_CXX_MODULE_STD OFF)
-else()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  # problematic in github CI
   set(CMAKE_CXX_MODULE_STD OFF)
+else()
+  set(CMAKE_CXX_MODULE_STD ON)
 endif()
 
 # Options
