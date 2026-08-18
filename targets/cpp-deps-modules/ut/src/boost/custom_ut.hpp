@@ -1732,7 +1732,9 @@ class reporter_junit {
           ss_out_ << "Running test \"" << test_event.name << "\" ... ";
         }
         ss_out_ << color_.pass << "PASSED " << color_.none;
+        #if !defined(_MSC_VER)
         print_duration(ss_out_);
+        #endif // !defined(_MSC_VER)
         lcout_ << ss_out_.str();
       }
     }
@@ -1777,7 +1779,9 @@ class reporter_junit {
       lcout_ << getLeadingSpace();
       lcout_ << "Running test \"" << current_node_->test_name << "\"... ";
       lcout_ << color_.fail << "FAILED " << color_.none;
+      #if !defined(_MSC_VER)
       print_duration(lcout_);
+      #endif // !defined(_MSC_VER)
       lcout_ << '\n';
       lcout_ << current_node_->report_string << '\n';
     }
@@ -1801,7 +1805,9 @@ class reporter_junit {
     if (report_type_ == CONSOLE) {
       ss << getLeadingSpace();
       ss << color_.fail << "FAILED " << color_.none;
+      #if !defined(_MSC_VER)
       print_duration(ss);
+      #endif // !defined(_MSC_VER)
     }
     ss << "in: " << assertion.location.file_name() << ':'
        << assertion.location.line();
