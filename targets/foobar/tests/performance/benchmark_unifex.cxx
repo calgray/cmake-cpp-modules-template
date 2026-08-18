@@ -18,6 +18,7 @@ namespace unifex
     using unifex::static_thread_pool;
     using unifex::timed_single_thread_context;
 
+#if defined(__linux)
     namespace linuxos {
         using unifex::linuxos::io_uring_context;
 
@@ -50,6 +51,7 @@ namespace unifex
             }
         };
     }
+#endif // __linux__
 }
 
 ut::suite<"unifex"> unifex_suite = [] {
@@ -75,6 +77,8 @@ ut::suite<"unifex"> unifex_suite = [] {
                 ex::sync_wait(std::move(all));
             });
         }
+
+#if defined(__linux__)
         {
             ex::linuxos::io_uring_thread_context io_ctx;
             auto ioSched = io_ctx.get_scheduler();
@@ -91,4 +95,5 @@ ut::suite<"unifex"> unifex_suite = [] {
             });
         }
     };
+#endif // __linux__
 };
