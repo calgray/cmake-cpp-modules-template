@@ -13,7 +13,7 @@ export module boost.ut;
 export import std;
 
 #define BOOST_UT_CXX_MODULES 1
-#include "custom_ut.hpp"
+#include "./ut.hpp"
 
 #if !defined(_MSC_VER)
 template class boost::ut::reporter_junit<boost::ut::printer>;
