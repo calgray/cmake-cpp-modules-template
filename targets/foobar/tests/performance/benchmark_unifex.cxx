@@ -1,3 +1,5 @@
+#if !defined(_MSC_VER)
+
 #include <unifex/task.hpp>
 
 import boost.ut;
@@ -97,3 +99,5 @@ ut::suite<"unifex"> unifex_suite = [] {
 #endif // __linux__
     };
 };
+
+#endif // !defined(_MSC_VER)

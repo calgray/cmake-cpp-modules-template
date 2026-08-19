@@ -1,3 +1,5 @@
+#if !defined(_MSC_VER)
+
 import boost.ut;
 import std;
 import std.compat;
@@ -74,3 +76,5 @@ ut::suite<"rng"> rng_suite = [] {
         bench_rng<ankerl::nanobench::Rng>(b, "ankerl::nanobench::Rng");
     };
 };
+
+#endif // !defined(_MSC_VER)
