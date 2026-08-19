@@ -15,6 +15,7 @@ export import std;
 #define BOOST_UT_CXX_MODULES 1
 #include "custom_ut.hpp"
 
+#if !defined(_MSC_VER)
 template class boost::ut::reporter_junit<boost::ut::printer>;
 template void boost::ut::reporter_junit<boost::ut::printer>::on<bool>(boost::ut::events::log<bool>);
 template void boost::ut::reporter_junit<boost::ut::printer>::on<bool>(boost::ut::events::assertion_pass<bool>);
@@ -24,3 +25,4 @@ template auto boost::ut::expect<bool>(const bool&expr,const reflection::source_l
 template void boost::ut::reporter_junit<>::on<boost::ut::detail::fatal_<bool>>(events::assertion_fail<boost::ut::detail::fatal_<bool>>);
 template void boost::ut::reporter_junit<>::on<boost::ut::detail::fatal_<bool>>(events::assertion_pass<boost::ut::detail::fatal_<bool>>);
 template void boost::ut::reporter_junit<>::on<boost::ut::detail::fatal_<bool>>(events::log<boost::ut::detail::fatal_<bool>>);
+#endif //!defined(_MSC_VER)
