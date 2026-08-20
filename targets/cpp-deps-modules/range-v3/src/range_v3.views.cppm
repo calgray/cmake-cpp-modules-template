@@ -8,10 +8,12 @@ export module range_v3:views;
 
 export namespace ranges
 {
+    using ranges::view_interface;
     using ranges::iota_view;
     using ranges::join_view;
     using ranges::common_view;
     using ranges::drop_view;
+    using ranges::invocable_view_closure;
     using ranges::view_facade;
     using ranges::operator==;
     using ranges::operator!=;
@@ -26,4 +28,6 @@ export namespace ranges::views
     using ranges::views::intersperse;
     using ranges::views::filter;
     using ranges::views::transform;
+
+    using ranges::views::view_closure;
 }

@@ -25,8 +25,10 @@ module;
 #include <unifex/with_scheduler_affinity.hpp>
 #include <unifex/with_query_value.hpp>
 
+#if defined(__linux__)
 #include "io_uring_context.hpp"
-//#include <unifex/linux/io_uring_context.hpp>
+// #include <unifex/linux/io_uring_context.hpp>
+#endif // __linux__
 
 export module unifex;
 
@@ -116,8 +118,10 @@ export namespace unifex {
     using unifex::_wsa::_wsa_sender_wrapper;
   }
 
+#if defined(__linux)
   namespace linuxos {
     using unifex::linuxos::io_uring_context;
   }
+#endif // __linux__
 
 } // namespace unifex

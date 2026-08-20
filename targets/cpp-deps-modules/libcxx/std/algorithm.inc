@@ -155,7 +155,7 @@ export namespace std {
   }
 
   namespace ranges {
-#if _LIBCPP_STD_VER >= 23
+#if _LIBCPP_STD_VER >= 26
 #  if !__GNUC__
     // [alg.starts.with], starts with
     using std::ranges::starts_with;

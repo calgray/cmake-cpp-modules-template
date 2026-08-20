@@ -7,8 +7,10 @@ if (CMAKE_VERSION VERSION_LESS "4.0.3")
   set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "a9e1cf81-9932-4810-974b-6eccaf14e457")
 elseif (CMAKE_VERSION VERSION_LESS "4.3.0")
   set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
-else()
+elseif (CMAKE_VERSION VERSION_LESS "4.4.0")
   set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "451f2fe2-a8a2-47c3-bc32-94786d8fc91b")
+else()
+  set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "f35a9ac6-8463-4d38-8eec-5d6008153e7d")
 endif()
 
 # Project + Language
@@ -22,12 +24,15 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   # Disable linking to compiler included std library module
   # will instead link std to libcxx wrapper
   set(CMAKE_CXX_MODULE_STD OFF)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  # problematic in github CI
+  set(CMAKE_CXX_MODULE_STD OFF)
 else()
   set(CMAKE_CXX_MODULE_STD ON)
 endif()
 
 # Options
-option(ENABLE_EIGEN      "Add Eigen support?" ON)
+option(ENABLE_EIGEN      "Add Eigen support?" OFF)
 option(ENABLE_CUDA      "Add Cuda support?" OFF)
 option(BUILD_TESTING    "Enable Testing?" ON)
 
@@ -39,7 +44,9 @@ include(cmake/cpp_modules.cmake)
 
 # Ninja has a bug where color terminal isnt detected when piping
 if (CMAKE_GENERATOR STREQUAL "Ninja Multi-Config")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+  endif()
 endif()
 
 if(ENABLE_CUDA)

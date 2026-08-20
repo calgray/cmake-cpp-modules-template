@@ -7,7 +7,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
 export namespace __gnu_cxx {
   using __gnu_cxx::operator-;
   using __gnu_cxx::operator==;
@@ -198,6 +198,7 @@ export namespace std {
   using std::insert_iterator;
   using std::inserter;
 
+#if not defined(__clang__)
   // [const.iterators], constant iterators and sentinels
   // [const.iterators.alias], alias templates
   using std::const_iterator;
@@ -207,9 +208,10 @@ export namespace std {
   // [const.iterators.iterator], class template basic_const_iterator
   using std::basic_const_iterator;
 
-  using std::common_type;
-
   using std::make_const_iterator;
+#endif
+
+  using std::common_type;
 
   // [move.iterators], move iterators and sentinels
   using std::move_iterator;
