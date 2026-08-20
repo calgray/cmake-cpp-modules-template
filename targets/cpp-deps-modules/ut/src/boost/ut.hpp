@@ -3090,6 +3090,20 @@ struct suite {
   }
 };
 
+#if defined(BOOST_UT_CXX_MODULES) && defined(_MSC_VER)
+[[maybe_unused]] auto log = detail::log{};
+[[maybe_unused]] auto that = detail::that_{};
+[[maybe_unused]] constexpr auto test = [](auto&& name) {
+  return detail::test{"test", std::forward<decltype(name)>(name)};
+};
+[[maybe_unused]] constexpr auto should = test;
+[[maybe_unused]] auto tag = [](const auto& name) {
+  return detail::tag{{name}};
+};
+[[maybe_unused]] auto skip = tag("skip");
+template <class T = void>
+[[maybe_unused]] constexpr auto type = detail::type_<T>();
+#else
 [[maybe_unused]] inline auto log = detail::log{};
 [[maybe_unused]] inline auto that = detail::that_{};
 [[maybe_unused]] constexpr auto test = [](auto&& name) {
@@ -3102,6 +3116,7 @@ struct suite {
 [[maybe_unused]] inline auto skip = tag("skip");
 template <class T = void>
 [[maybe_unused]] constexpr auto type = detail::type_<T>();
+#endif // defined(BOOST_UT_CXX_MODULES) && defined(_MSC_VER)
 
 template <class TLhs, class TRhs>
   requires type_traits::is_stream_insertable_v<TLhs> &&
