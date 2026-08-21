@@ -17,15 +17,15 @@ jobs:
 
       # Set up a matrix to run the following 3 configurations:
         # 1. <Linux, Release, latest GCC compiler toolchain on the default runner image, default generator>
-        # 2. <Linux, Release, latest Clang compiler toolchain on the default runner image, default generator>
-        # 3. <MacOS, Release, latest XCode compiler toolchain on the default runner image, default generator>
+        # 2. <Linux, Release, latest LLVM compiler toolchain on the default runner image, default generator>
+        # 3. <MacOS, Release, latest LLVM compiler toolchain on the default runner image, default generator>
         # 4. <Windows, Release, latest MSVC compiler toolchain on the default runner image, default generator>
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
         runner: [ubuntu-26.04, windows-2025-vs2026, macos-26-intel]
         build_type: [Release]
-        toolchain: [gnu, llvm, xcode, msvc]
+        toolchain: [gnu, llvm, msvc, xcode]
         include:
           - runner: ubuntu-26.04
             toolchain: gnu
@@ -36,9 +36,9 @@ jobs:
             c_compiler: clang-22
             cpp_compiler: clang++-22
           - runner: macos-26-intel
-            toolchain: xcode
-            c_compiler: /usr/bin/clang
-            cpp_compiler: /usr/bin/clang++
+            toolchain: llvm
+            c_compiler: /usr/local/opt/llvm@20/bin/clang
+            cpp_compiler: /usr/local/opt/llvm@20/bin/clang++
           - runner: windows-2025-vs2026
             toolchain: msvc
             c_compiler: cl
@@ -51,7 +51,7 @@ jobs:
           - runner: macos-26-intel
             toolchain: gnu
           - runner: macos-26-intel
-            toolchain: llvm
+            toolchain: xcode  # xcode lacking clang-scan-deps
           - runner: macos-26-intel
             toolchain: msvc
           - runner: windows-2025-vs2026

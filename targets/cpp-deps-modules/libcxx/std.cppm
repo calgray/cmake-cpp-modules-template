@@ -73,7 +73,9 @@ export import std;
 #include <expected>
 #include <filesystem>
 #include <flat_map>
+#if __has_include(<flat_set>)
 #include <flat_set>
+#endif // __has_include(<flat_set>)
 #include <format>
 #include <forward_list>
 #include <fstream>
