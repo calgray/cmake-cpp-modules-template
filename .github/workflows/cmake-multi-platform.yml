@@ -16,45 +16,62 @@ jobs:
       fail-fast: false
 
       # Set up a matrix to run the following 3 configurations:
-      # 1. <Windows, Release, latest MSVC compiler toolchain on the default runner image, default generator>
-      # 2. <Linux, Release, latest GCC compiler toolchain on the default runner image, default generator>
-      # 3. <Linux, Release, latest Clang compiler toolchain on the default runner image, default generator>
+        # 1. <Linux, Release, latest GCC compiler toolchain on the default runner image, default generator>
+        # 2. <Linux, Release, latest Clang compiler toolchain on the default runner image, default generator>
+        # 3. <MacOS, Release, latest XCode compiler toolchain on the default runner image, default generator>
+        # 4. <Windows, Release, latest MSVC compiler toolchain on the default runner image, default generator>
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        runner: [ubuntu-26.04, windows-2025-vs2026]
+        runner: [ubuntu-26.04, windows-2025-vs2026, macos-26-intel]
         build_type: [Release]
-        c_compiler: [gcc-15, clang-22, cl]
+        toolchain: [gnu, llvm, xcode, msvc]
         include:
-          - runner: windows-2025-vs2026
-            os: Windows
-            c_compiler: cl
-            cpp_compiler: cl
           - runner: ubuntu-26.04
+            toolchain: gnu
             c_compiler: gcc-15
             cpp_compiler: g++-15
           - runner: ubuntu-26.04
+            toolchain: llvm
             c_compiler: clang-22
             cpp_compiler: clang++-22
-        exclude:
+          - runner: macos-26-intel
+            toolchain: xcode
+            c_compiler: /usr/bin/clang
+            cpp_compiler: /usr/bin/clang++
           - runner: windows-2025-vs2026
-            c_compiler: gcc-15
-          - runner: windows-2025-vs2026
-            c_compiler: clang-22
-          - runner: ubuntu-26.04
+            toolchain: msvc
             c_compiler: cl
+            cpp_compiler: cl
+        exclude:
+          - runner: ubuntu-26.04
+            toolchain: xcode
+          - runner: ubuntu-26.04
+            toolchain: msvc
+          - runner: macos-26-intel
+            toolchain: gnu
+          - runner: macos-26-intel
+            toolchain: llvm
+          - runner: macos-26-intel
+            toolchain: msvc
+          - runner: windows-2025-vs2026
+            toolchain: gnu
+          - runner: windows-2025-vs2026
+            toolchain: llvm
+          - runner: windows-2025-vs2026
+            toolchain: xcode
 
     steps:
     - uses: actions/checkout@v5
 
-    - name: Install libc++ for Clang
+    - name: Install libc++ for Clang-22
       if: matrix.c_compiler == 'clang-22'
       run: |
         sudo apt-get update
         sudo apt-get install -y clang-22 clang-tools-22 libc++-22-dev libc++abi-22-dev
 
     - uses: ilammy/msvc-dev-cmd@v1
-      if: matrix.c_compiler == 'cl'
+      if: matrix.toolchain == 'msvc'
       with:
         arch: x64
 
@@ -65,31 +82,51 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-        case "${{ matrix.c_compiler }}" in
-          gcc*)
+        # conan_compiler and conan_compiler_version
+
+        case "${{ matrix.toolchain }}" in
+          gnu)
             conan_compiler=gcc
+            conan_compiler_version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
             ;;
-          clang*)
+          llvm)
             conan_compiler=clang
+            conan_compiler_version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
             ;;
-          cl)
+          xcode)
+            conan_compiler=apple-clang
+            conan_compiler_version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
+            ;;
+          msvc)
             conan_compiler=msvc
+            conan_compiler_version=195
+            ;;
+          *)
+            echo "Invalid toolchain: ${{ matrix.toolchain }}"
+            exit 1
             ;;
         esac
         echo "conan_compiler=$conan_compiler" >> "$GITHUB_OUTPUT"
+        echo "conan_compiler_version=$conan_compiler_version" >> "$GITHUB_OUTPUT"
 
-        case "${{ matrix.c_compiler }}" in
-          gcc*)
-            conan_compiler_version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
+        # conan_os
+
+        case "${RUNNER_OS}" in
+          Linux)
+            conan_os=Linux
             ;;
-          clang*)
-            conan_compiler_version=$(${{ matrix.c_compiler }} -dumpversion | cut -d. -f1)
+          macOS)
+            conan_os=Macos
             ;;
-          cl)
-            conan_compiler_version=195
+          Windows)
+            conan_os=Windows
+            ;;
+          *)
+            echo "Invalid os: ${RUNNER_OS}"
+            exit 1
             ;;
         esac
-        echo "conan_compiler_version=$conan_compiler_version" >> "$GITHUB_OUTPUT"
+        echo "conan_os=$conan_os" >> "$GITHUB_OUTPUT"
 
     - name: Create Conan Dependencies Profile
       shell: bash
@@ -97,12 +134,13 @@ jobs:
         cat << EOF > profile.txt
         [settings]
         arch=x86_64
-        os=$RUNNER_OS
+        os=${{ steps.strings.outputs.conan_os }}
         compiler=${{ steps.strings.outputs.conan_compiler }}
         compiler.version=${{ steps.strings.outputs.conan_compiler_version }}
         compiler.cppstd=23
         $([[ "${{ steps.strings.outputs.conan_compiler }}" == "gcc" ]] && echo "compiler.libcxx=libstdc++11")
         $([[ "${{ steps.strings.outputs.conan_compiler }}" == "clang" ]] && echo "compiler.libcxx=libc++")
+        $([[ "${{ steps.strings.outputs.conan_compiler }}" == "apple-clang" ]] && echo "compiler.libcxx=libc++")
         $([[ "${{ steps.strings.outputs.conan_compiler }}" == "msvc" ]] && echo "compiler.runtime=static")
 
         [buildenv]
@@ -141,7 +179,6 @@ jobs:
         .
 
     - name: Build
-      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: >
         cmake
         --build ${{ steps.strings.outputs.build-output-dir }}

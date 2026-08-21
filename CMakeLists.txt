@@ -27,9 +27,16 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   # problematic in github CI
   set(CMAKE_CXX_MODULE_STD OFF)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+  # not supported
+  set(CMAKE_CXX_MODULE_STD OFF)
 else()
   set(CMAKE_CXX_MODULE_STD ON)
 endif()
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+
 
 # Options
 option(ENABLE_EIGEN      "Add Eigen support?" OFF)
