@@ -12,6 +12,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 target_compile_definitions(${TARGET_NAME} PRIVATE CXX_MODULE_STD=$<BOOL:${CMAKE_CXX_MODULE_STD}>)
+# target_compile_definitions(${TARGET_NAME} PRIVATE _LIBCPP_STD_VER=23)
 target_compile_definitions(${TARGET_NAME} PRIVATE _LIBCPP_USING_IF_EXISTS=)
 target_compile_definitions(${TARGET_NAME} PRIVATE _LIBCPP_HAS_LOCALIZATION=1)
 target_compile_definitions(${TARGET_NAME} PRIVATE _LIBCPP_HAS_WIDE_CHARACTERS=1)

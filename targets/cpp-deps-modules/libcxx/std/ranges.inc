@@ -101,7 +101,7 @@ export namespace std {
     // [range.dangling], dangling iterator handling
     using std::ranges::dangling;
 
-#if _LIBCPP_STD_VER >= 23
+#if _LIBCPP_STD_VER >= 23 && (!defined(__clang__) || __clang_major__ > 20)
     // [range.elementsof], class template elements_­of
     using std::ranges::elements_of;
 #endif

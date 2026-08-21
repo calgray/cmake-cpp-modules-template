@@ -20,7 +20,7 @@ export namespace std {
     using std::ranges::in_value_result;
 #endif
     using std::ranges::min_max_result;
-#if _LIBCPP_STD_VER >= 23 && __cpp_lib_ranges >= 202406L
+#if _LIBCPP_STD_VER >= 23 && (!defined(__clang__) || __clang_major__ > 20)
     using std::ranges::out_value_result;
 #endif
   } // namespace ranges

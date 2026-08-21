@@ -8,7 +8,7 @@
 //===----------------------------------------------------------------------===//
 
 export namespace std {
-#if _LIBCPP_STD_VER >= 23
+#if _LIBCPP_STD_VER >= 23 && __cpp_lib_constexpr_flat_set >= 202502L
   // [flat.set], class template flat_­set
   using std::flat_set;
 
