@@ -10,6 +10,7 @@ Template project for C++20/23 module support in CMake. For more information see 
 ### Tools
 
 * cmake>=3.26
+* conan>=2.29.0
 * ninja>=1.11.1
 
 ### Compilers
@@ -86,7 +87,10 @@ One of:
 
 ## Build and Test
 
-### Clang
+> [!NOTE]
+> This project uses a cononcial conan-driven buildchain for building dependencies. A CMake driven approach using [cmake-conan](https://github.com/conan-io/cmake-conan) is possible with conan>=2. For more information, see: [conan CMake integrations](https://docs.conan.io/2/integrations/cmake.html) and [conan/issues/17361](https://github.com/conan-io/conan/issues/17361)
+
+### LLVM
 
 ```bash
 export CONAN_PROFILE=profile-clang-<machine-name>.txt
@@ -118,9 +122,7 @@ cmake --build build/gcc --config Release -j8
 ctest -preset=${CONAN_PROFILE} --no-compress-output --verbose
 ```
 
-## Dockerfile
-
-### Clang
+### Docker LLVM
 
 ```bash
 # build
@@ -129,7 +131,7 @@ docker build -t cmake-cpp-modules-template-clang -f docker/Dockerfile-clang .
 docker run --security-opt seccomp=unconfined -it --rm cmake-cpp-modules-template-clang
 ```
 
-### GNU
+### Docker GNU
 
 ```bash
 # build

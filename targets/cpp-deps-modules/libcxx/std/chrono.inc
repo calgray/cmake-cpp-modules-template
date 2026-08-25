@@ -25,8 +25,12 @@ export namespace std {
 
     using std::chrono::duration_values;
 
+#if _LIBCPP_STD_VER >= 20
+#  if !defined(__clang__) || __clang_major__ > 20
     using std::chrono::is_clock;
     using std::chrono::is_clock_v;
+#  endif // !defined(__clang__) || __clang_major__ > 20
+#endif
 
     // [time.duration.nonmember], duration arithmetic
     using std::chrono::operator+;

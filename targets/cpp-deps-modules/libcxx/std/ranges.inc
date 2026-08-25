@@ -102,8 +102,10 @@ export namespace std {
     using std::ranges::dangling;
 
 #if _LIBCPP_STD_VER >= 23
+#  if !defined(__clang__) || __clang_major__ > 20
     // [range.elementsof], class template elements_­of
     using std::ranges::elements_of;
+#  endif
 #endif
 
     using std::ranges::borrowed_iterator_t;
@@ -247,14 +249,14 @@ export namespace std {
       using std::ranges::views::join;
     } // namespace views
 
-#if _LIBCPP_STD_VER >= 23
+#if _LIBCPP_STD_VER >= 23 && __cpp_lib_ranges_join_with >= 202202L
     // [range.join.with]
     using std::ranges::join_with_view;
 
     namespace views {
       using std::ranges::views::join_with;
     } // namespace views
-#endif // _LIBCPP_STD_VER >= 23
+#endif // _LIBCPP_STD_VER >= 23 && __cpp_lib_ranges_join_with >= 202202L
 
     using std::ranges::lazy_split_view;
 
@@ -305,7 +307,7 @@ export namespace std {
       using std::ranges::views::values;
     } // namespace views
 
-#if _LIBCPP_STD_VER >= 23
+#if _LIBCPP_STD_VER >= 23 && __cpp_lib_ranges_zip >= 202110L
     // [range.zip], zip view
     using std::ranges::zip_view;
 
@@ -333,7 +335,7 @@ export namespace std {
       using std::ranges::views::pairwise_transform;
     } // namespace views
 
-#endif // _LIBCPP_STD_VER >= 23
+#endif // _LIBCPP_STD_VER >= 23 && __cpp_lib_ranges_zip >= 202110L
 
 #if 0
     using std::ranges::chunk_view;

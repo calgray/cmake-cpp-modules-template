@@ -43,7 +43,7 @@ export namespace std {
 
   namespace ranges {
 
-#if _LIBCPP_STD_VER >= 23
+#if _LIBCPP_STD_VER >= 23 && __cpp_lib_ranges_iota >= 202202L
     using std::ranges::iota;
     using std::ranges::iota_result;
 #endif // _LIBCPP_STD_VER >= 23
