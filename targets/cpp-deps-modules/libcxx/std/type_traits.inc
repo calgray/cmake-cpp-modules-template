@@ -108,10 +108,14 @@ export namespace std {
 
 #if _LIBCPP_STD_VER >= 23
 #  if __has_builtin(__reference_constructs_from_temporary)
+#    if !defined(__clang__) || __clang_major__ > 20
   using std::reference_constructs_from_temporary;
+#    endif // !defined(__clang__) || __clang_major__ > 20
 #  endif
 #  if __has_builtin(__reference_converts_from_temporary)
+#    if !defined(__clang__) || __clang_major__ > 20
   using std::reference_converts_from_temporary;
+#    endif // !defined(__clang__) || __clang_major__ > 20
 #  endif
 #endif
 
@@ -292,10 +296,14 @@ export namespace std {
   using std::is_volatile_v;
 #if _LIBCPP_STD_VER >= 23
 #  if __has_builtin(__reference_constructs_from_temporary)
+#    if !defined(__clang__) || __clang_major__ > 20
   using std::reference_constructs_from_temporary_v;
+#    endif // !defined(__clang__) || __clang_major__ > 20
 #  endif
 #  if __has_builtin(__reference_converts_from_temporary)
+#    if !defined(__clang__) || __clang_major__ > 20
   using std::reference_converts_from_temporary_v;
+#    endif // !defined(__clang__) || __clang_major__ > 20
 #  endif
 #endif
 
